@@ -5,6 +5,7 @@ import LandingPage from './Pages/LandingPage';
 import Register from './Pages/register';
 import Home from "./Pages/Home";
 import adminDash from "./admin/pages/AdminDashboard";
+import addRestaurant from "./admin/pages/AddRestuarant";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path='/register' component={Register} />
           <Route path='/home' component={Home} />
           <Route path='/adminDashboard' component={adminDash} />
+          <Route path='/addRestaurant' component={addRestaurant} />
         </Router>
       </BrowserRouter>
     </div>

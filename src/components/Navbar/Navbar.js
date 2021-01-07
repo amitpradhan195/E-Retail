@@ -15,13 +15,14 @@ import {
   ModalFooter
 } from 'reactstrap';
 import Axios from "axios";
-import { Redirect } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import { FiLogIn, FiLogOut } from "react-icons/fi";
 
 export default function NavBar(props){
   const [isRegistered, setIsRegistered] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
+  let history = useHistory();
   
   const email = useFormInput();
   const password = useFormInput();
@@ -30,34 +31,48 @@ export default function NavBar(props){
 
   useEffect(()=>{
     const token = localStorage.getItem("token");
+    console.log("I am token: "+token);
     if(token!=null){
       setIsRegistered(true);
     }
     else{
       setIsRegistered(false);
     }
-  })
+  },[])
 
   function handleLogin(e){ 
-    console.log({email:email, password:password});
+    console.log({email, password});
     e.preventDefault();
-    Axios.post('http://localhost:3002/users/login')
-      .then((response)=>{
-        localStorage.setItem('token', response.data.token)
-        localStorage.setItem('email', response.data.email)
-        // if(response.data.role==='admin'){
-        //   return <Redirect to='/admin' />
-        // }else if (this.state.role === 'customer') {
-        //   return <Redirect to='/home' />
-        // }
-        console.log(response.data)
-        if(response.data.status==='success'){
-          alert("Login Successful");
-        }
-        else{
-          alert("response.data.err");
-        }
-    }).catch((err) => console.log(err.response))
+    if(email.value==null && password.value==null){
+      return alert("Please enter username and password");
+    }
+    else if(email.value==null || password.value==null){
+      return alert("username or password is missing");
+    }
+    else{
+        Axios.post('http://localhost:3002/users/login', {email:email.value, password:password.value})
+        .then((response)=>{
+          console.log(response.data)
+          const role = response.data.role;
+          if(response.data.status==='success'){
+            localStorage.setItem('token', response.data.token)
+            localStorage.setItem('email', response.data.email)
+            if(response.data.role==="admin"){
+              history.push("/adminDashboard");
+            }
+            else{
+              history.push("/home")
+            }
+          }
+          else if(response.data.status==='401'){
+            alert("Invalid username or password");
+          }
+          else{
+            alert("unknown Error")
+          }
+          return role;
+        }).catch((err) => console.log(err.response))
+      }
   }
 
   function handleLogout(e){
@@ -103,12 +118,12 @@ export default function NavBar(props){
                   <form>
                     <div className="form-group">
                       <label>Email Id</label>
-                      <input type="text" {...email} className="form-control" placeholder="Enter email" />
+                      <input type="text" {...email} className="form-control" placeholder="Enter email" required/>
                     </div>
 
                     <div className="form-group">
                       <label>Password</label>
-                      <input type="password" {...password} className="form-control" placeholder="Enter password" />
+                      <input type="password" {...password} className="form-control" placeholder="Enter password" required/>
                     </div>
                     
                     <div className="form-group">

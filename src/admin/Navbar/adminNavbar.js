@@ -42,7 +42,7 @@ export default class AdminNavbar extends Component {
             return (
                 <div>
                 <Navbar color="light" light expand="md">
-                    <NavbarBrand href="/admin"><h3 style={{color:'DarkTurquoise'}}>FOODIE NEPAL</h3></NavbarBrand>
+                    <NavbarBrand href="/adminDashboard"><h3 style={{color:'DarkTurquoise'}}>FOODIE NEPAL</h3></NavbarBrand>
                     <NavbarToggler onClick={this.toggle.bind(this)} />
                     <Collapse isOpen={this.state.isOpen} navbar>
                     <Nav className="mr-auto" navbar>
@@ -50,7 +50,7 @@ export default class AdminNavbar extends Component {
                             <NavLink href="/adminDashboard">Home</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink href="#">Restaurants</NavLink>
+                            <NavLink href="/addRestaurant">Restaurants</NavLink>
                         </NavItem>
                         <NavItem>
                             <NavLink href="#">Foods</NavLink>

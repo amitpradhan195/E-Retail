@@ -54,10 +54,10 @@ export default class ListFoods extends Component {
     })
   }
 
-  deleteresturant = (resId) => {
+  deleteresturant(resId){
     Axios.delete(`http://localhost:3002/resturants/${resId}`, this.state.config)
     .then((response) => {
-      console.log(response)
+      console.log("delete trying")
     })
   }
 
@@ -97,8 +97,8 @@ export default class ListFoods extends Component {
         res_image:this.state.res_image 
       },this.state.config)
         .then((response) => {
-          alert("Restaurant updated successfully")
-          window.location.reload(true)
+          // alert("Restaurant updated successfully")
+            window.location.reload();
           console.log(response.data)
         })
         .catch((err) => console.log(err.response))
