@@ -1,16 +1,22 @@
 import React from 'react'
 import './App.css';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter, BrowserRouter as Router, Route } from 'react-router-dom';
 import LandingPage from './Pages/LandingPage';
-import Register from './Pages/register'
+import Register from './Pages/register';
+import Home from "./Pages/Home";
+import adminDash from "./admin/pages/AdminDashboard";
 
 function App() {
   return (
     <div className="App">
-      <Router>
-        <Route exact path='/' component={LandingPage}/>
-        <Route path='/register' component={Register} />
-      </Router>
+      <BrowserRouter>
+        <Router>
+          <Route exact path='/' component={LandingPage}/>
+          <Route path='/register' component={Register} />
+          <Route path='/home' component={Home} />
+          <Route path='/adminDashboard' component={adminDash} />
+        </Router>
+      </BrowserRouter>
     </div>
   );
 }

@@ -1,0 +1,54 @@
+
+.tophead{
+    width:100%;
+    height:65px;
+    background-color: #1976d2;
+    display: block;
+    justify-content: space-between;
+    align-items: center;
+}
+.brand{
+    color:#fff;
+    font-size: 2.1 rem;
+    padding-left: 0px;
+    
+}
+.menulines{
+    font-size: 20px;
+    cursor: pointer;
+    float: left;
+    color: #fff;
+}
+.sidenavbar{
+    margin-top: 65px;
+    height: 100%;
+    width:200px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background-color: #272624;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+.sidenavbar a {
+    text-decoration: none;
+    list-style: none;
+    font-size: 15px;
+    color: #fff;
+    display: block;
+    padding: 20px 0 10px 20px;
+}
+.sidenavbar a:hover{
+    color:rgba(255,255,255,0.7);
+}
+.mainpart{
+    margin-top: 50px;
+    margin-left: 50px;
+}
+.closebtn{
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 40px!important;
+}
