@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
 import {Navbar,NavbarBrand,NavbarToggler,Collapse,Nav,NavItem,NavLink,UncontrolledDropdown,DropdownToggle,DropdownMenu,DropdownItem, NavbarText} from 'reactstrap';
 import './adminnavbar.css';
+import { MdAccountCircle } from "react-icons/md";
 
 
 export default class AdminNavbar extends Component {
     constructor(props) {
         super(props)
-    
         this.state = {
              sidenavbar:false,
              isOpen:false,
-             username:'',
+             email:'',
              config: {
                 headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
               },
@@ -25,7 +25,7 @@ export default class AdminNavbar extends Component {
 
     componentDidMount(){
         this.setState({
-            username:localStorage.getItem('username')
+            email:localStorage.getItem('email')
         })
     }
     
@@ -56,7 +56,7 @@ export default class AdminNavbar extends Component {
                             <NavLink href="#">Foods</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink href="#">Food Category</NavLink>
+                            <NavLink href="/foodCategory">Food Category</NavLink>
                         </NavItem>
                         <UncontrolledDropdown nav inNavbar>
                         <DropdownToggle nav caret>
@@ -72,11 +72,10 @@ export default class AdminNavbar extends Component {
                         </DropdownMenu>
                         </UncontrolledDropdown>
                     </Nav>
-                    <NavbarText>Welcome, {this.state.username}</NavbarText>
+                    <NavbarText><MdAccountCircle style={{fontSize:"30px"}}/> {this.state.email}</NavbarText>
                     </Collapse>
                 </Navbar>
                 </div>   
             )
-
     }
 }

@@ -6,6 +6,7 @@ import Register from './Pages/register';
 import Home from "./Pages/Home";
 import adminDash from "./admin/pages/AdminDashboard";
 import addRestaurant from "./admin/pages/AddRestuarant";
+import FoodCategory from "./admin/pages/FoodCategory";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path='/home' component={Home} />
           <Route path='/adminDashboard' component={adminDash} />
           <Route path='/addRestaurant' component={addRestaurant} />
+          <Route path='/foodCategory' component={FoodCategory} />
         </Router>
       </BrowserRouter>
     </div>

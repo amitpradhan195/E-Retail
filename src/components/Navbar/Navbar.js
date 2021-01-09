@@ -41,7 +41,7 @@ export default function NavBar(props){
   },[])
 
   function handleLogin(e){ 
-    console.log({email, password});
+    // console.log({email, password});
     e.preventDefault();
     if(email.value==null && password.value==null){
       return alert("Please enter username and password");
@@ -52,7 +52,6 @@ export default function NavBar(props){
     else{
         Axios.post('http://localhost:3002/users/login', {email:email.value, password:password.value})
         .then((response)=>{
-          console.log(response.data)
           const role = response.data.role;
           if(response.data.status==='success'){
             localStorage.setItem('token', response.data.token)

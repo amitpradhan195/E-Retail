@@ -66,17 +66,15 @@ export default class AddRestuarant extends Component {
         <>
         <AdminNavbar/>
         <div className="container">
-          <h2 style={{color:'Crimson'}}>Add Resturant</h2><hr/>
+          <h2 style={{color:'#34495E'}}>Add Resturant</h2><hr/>
           <div className="row">
             <div className="col-md-8">
-              <form style={{backgroundColor:'AntiqueWhite'}} className="p-3">
+              <form style={{backgroundColor:'#EAF2F8'}} className="p-3">
                 <FormGroup>
-                  {/* <Label for='Resturantname'>Resturant Name</Label> */}
                   <Input type='text' id="resturantname" name='resturant_name' value={this.state.resturant_name}
                     onChange={this.handleChange} placeholder="Enter restaurant name" required/>
                 </FormGroup>
                 <FormGroup>
-                  {/* <Label for='resturant_address'>Resturant_address</Label> */}
                   <Input type='text' id='resturant_address' name='resturant_address' value={this.state.resturant_address}
                     onChange={ this.handleChange} placeholder="Enter restaurant address" required/>
                     </FormGroup>
@@ -92,7 +90,7 @@ export default class AddRestuarant extends Component {
             </div>
           </div>
               <hr></hr>
-              <h2 style={{color:'Crimson'}}>View Restaurant</h2>
+              <h2 style={{color:'#34495E'}}>View Restaurant</h2>
             <ListResturant />
           </div>
           </>

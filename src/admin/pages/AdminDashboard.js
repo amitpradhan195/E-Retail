@@ -11,7 +11,7 @@ export default class AdminDashboard extends Component {
                 <h2>List of Restaurants</h2>
                 <ListRestaurants/>
                 <h2>List of Foods</h2>
-                <ListFoods/>
+                {/* <ListFoods/> */}
                 <hr></hr>
             </div>
         )
