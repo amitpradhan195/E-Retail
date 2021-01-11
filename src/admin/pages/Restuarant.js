@@ -86,7 +86,9 @@ export default class AddRestuarant extends Component {
               </form>
             </div>
             <div className="col-md-4 flex">
-              <img alt="Image Preview" style={{width:300}} src={this.state.imgPreview}/><br/>
+              <img alt="Image Preview" 
+              style={{display:'block', border: '1px solid gray', width:"200px", textAlign:'center'}} 
+              src={this.state.imgPreview}/><br/>
             </div>
           </div>
               <hr></hr>

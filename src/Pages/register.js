@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import { Button, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import foodiePic from '../assets/foodienepal.png';
-import axios from 'axios'
-import { Redirect } from 'react-router-dom';
+import axios from 'axios';
 
 export default class Register extends Component {
 

@@ -50,29 +50,32 @@ export default class AdminNavbar extends Component {
                             <NavLink href="/adminDashboard">Home</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink href="/addRestaurant">Restaurants</NavLink>
+                            <NavLink href="/restaurant">Restaurants</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink href="#">Foods</NavLink>
+                            <NavLink href="/food">Foods</NavLink>
                         </NavItem>
                         <NavItem>
                             <NavLink href="/foodCategory">Food Category</NavLink>
                         </NavItem>
-                        <UncontrolledDropdown nav inNavbar>
-                        <DropdownToggle nav caret>
-                            Options
-                        </DropdownToggle>
-                        <DropdownMenu right>
-                            <DropdownItem href="#">
-                            View User
-                            </DropdownItem>
-                            <DropdownItem onClick={this.handleLogout}>
-                            Log Out
-                            </DropdownItem>
-                        </DropdownMenu>
-                        </UncontrolledDropdown>
+                        
                     </Nav>
-                    <NavbarText><MdAccountCircle style={{fontSize:"30px"}}/> {this.state.email}</NavbarText>
+                    <NavLink>
+                        <UncontrolledDropdown>
+                            <DropdownToggle nav caret>
+                            <MdAccountCircle style={{fontSize:"30px", marginRight:"5px"}}/>
+                            {this.state.email}
+                            </DropdownToggle>
+                            <DropdownMenu right>
+                                <DropdownItem href="#">
+                                My Profile
+                                </DropdownItem>
+                                <DropdownItem onClick={this.handleLogout}>
+                                Log Out
+                                </DropdownItem>
+                            </DropdownMenu>
+                        </UncontrolledDropdown>
+                    </NavLink>
                     </Collapse>
                 </Navbar>
                 </div>   

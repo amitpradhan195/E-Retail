@@ -15,7 +15,7 @@ import {
   ModalFooter
 } from 'reactstrap';
 import Axios from "axios";
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { FiLogIn, FiLogOut } from "react-icons/fi";
 
 export default function NavBar(props){
@@ -34,6 +34,13 @@ export default function NavBar(props){
     console.log("I am token: "+token);
     if(token!=null){
       setIsRegistered(true);
+      let role = localStorage.getItem("role");
+      if(role==="admin"){
+        history.push("/adminDashboard");
+      }
+      else{
+        history.push("/home");
+      }
     }
     else{
       setIsRegistered(false);
@@ -56,6 +63,7 @@ export default function NavBar(props){
           if(response.data.status==='success'){
             localStorage.setItem('token', response.data.token)
             localStorage.setItem('email', response.data.email)
+            localStorage.setItem('role', response.data.role)
             if(response.data.role==="admin"){
               history.push("/adminDashboard");
             }

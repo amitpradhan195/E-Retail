@@ -5,8 +5,9 @@ import LandingPage from './Pages/LandingPage';
 import Register from './Pages/register';
 import Home from "./Pages/Home";
 import adminDash from "./admin/pages/AdminDashboard";
-import addRestaurant from "./admin/pages/AddRestuarant";
+import Restaurant from "./admin/pages/Restuarant";
 import FoodCategory from "./admin/pages/FoodCategory";
+import Food from "./admin/pages/Food";
 
 function App() {
   return (
@@ -17,8 +18,9 @@ function App() {
           <Route path='/register' component={Register} />
           <Route path='/home' component={Home} />
           <Route path='/adminDashboard' component={adminDash} />
-          <Route path='/addRestaurant' component={addRestaurant} />
+          <Route path='/restaurant' component={Restaurant} />
           <Route path='/foodCategory' component={FoodCategory} />
+          <Route path='/food' component={Food} />
         </Router>
       </BrowserRouter>
     </div>
