@@ -29,7 +29,7 @@ export default class ListFoods extends Component {
         .then((response)=>{
           const data = response.data;
           this.setState({popular:  data});
-          this.setState({food: data});
+          // this.setState({food: data});
           console.log(this.state.popular);
         }).catch(error => console.log(error.response));
     }
@@ -67,11 +67,13 @@ export default class ListFoods extends Component {
       })
     }
 
-    deletefood = (foodId) => {
+    deletefood(foodId){
       Axios.delete(`http://localhost:3002/foods/${foodId}`, this.state.config)
       .then((response) => {
-        console.log('deleted successfully');   
+        console.log(response);
+        window.location.reload()   
       })
+      .catch(error => console.log(error.response));
     }
 
     handleEdit = (foodId) => {
@@ -83,7 +85,7 @@ export default class ListFoods extends Component {
         const data = response.data;
           this.setState({
             food: data,
-            imgpreview:`http://localhost:3002/uploads/${data.foodimage}`
+            imgpreview:`http://localhost:3002/upload/${data.foodimage}`
           });    
         console.log("data fecth");
         })
@@ -113,7 +115,7 @@ export default class ListFoods extends Component {
           .then((response) => {
             alert("Food updated successfully")
             console.log(response.data)
-            window.location.reload(false);
+            window.location.reload();
           })
           .catch((err)=>console.log(err.response))
         })
@@ -144,7 +146,7 @@ export default class ListFoods extends Component {
                   <td>{pop.foodname}</td>
                   <td>{pop.price}</td>
                   <td>
-                    <img alt="foodPic" src={`http://localhost:3002/uploads/${pop.foodimage}`} style={{height: "50px",width:"50px"}}/>
+                    <img alt="foodPic" src={`http://localhost:3002/upload/${pop.foodimage}`} style={{height: "50px",width:"50px"}}/>
                   </td>
                   <td>
                     <a className="btn btn-success" onClick={() => this.handleEdit(pop._id)}>Edit</a>

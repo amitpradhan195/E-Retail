@@ -4,8 +4,7 @@ import axios from 'axios'
 import ListFoods from './ListFoods'
 import AdminNavbar from '../Navbar/adminNavbar';
 import { MdAdd } from "react-icons/md";
-
-
+import NumberFormat from "react-number-format";
 
 export default class AddFood extends Component {
 
@@ -67,7 +66,7 @@ export default class AddFood extends Component {
 
     handleChange = (e)  =>{
         this.setState({
-             [e.target.name]: e.target.value 
+            [e.target.name]: e.target.value 
         })
     }
 
@@ -88,7 +87,7 @@ export default class AddFood extends Component {
                 .then((response)=>{
                     console.log(response)
                     alert("Category added successfully")
-                    window.location.reload(false)
+                    window.location.reload()
                 }).catch((err)=>console.log(err.response))
             }).catch((err) => console.log(err.response))
     }
@@ -111,8 +110,8 @@ export default class AddFood extends Component {
                     category:this.state.catSelect
                 }, this.state.config)
                     .then((response) => {
-                        console.log(response)
-                        window.location.reload(false)
+                        console.log(response);
+                        window.location.reload();
                     })
                     .catch((err) => console.log(err.response))
             }).catch((err) => console.log(err.response))
@@ -150,7 +149,10 @@ export default class AddFood extends Component {
                                 <Label for='foodprice'>
                                     <legend style={{fontSize:18}}>Food price</legend>
                                 </Label>
-                                <Input type='number' id='foodprice' name='price' onChange={ this.handleChange} />
+                                <NumberFormat id='foodprice' name='price' 
+                                    onChange={ this.handleChange}
+                                    thousandSeparator 
+                                />
                             </FormGroup>
                         </Col>
                     </Row>

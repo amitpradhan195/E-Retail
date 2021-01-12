@@ -48,7 +48,6 @@ export default function NavBar(props){
   },[])
 
   function handleLogin(e){ 
-    // console.log({email, password});
     e.preventDefault();
     if(email.value==null && password.value==null){
       return alert("Please enter username and password");

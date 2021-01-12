@@ -1,0 +1,65 @@
+.carouselImg{
+    width: 100%;
+    object-fit:fill;
+    max-height: 550px;
+    opacity: 0.6;
+    background-color: black;
+  }
+  
+  .sliderContent{
+    color:white;
+    opacity: 1.0;
+    position: absolute;
+    top: 10%;
+    text-align: left;
+    font-size: 18px;
+  }
+  
+  .carouselDiv{
+    background-color: black;
+  }
+
+  .btnCarousel{
+    color: white;
+    font-weight: bold;
+    border-color: white;
+    border-width: 2px;
+  }
+
+  .btnCarousel:hover{
+    color: #464545;
+    background-color: white;
+  }
+
+  .fade-in {
+    animation: fadeIn ease 5s;
+    -webkit-animation: fadeIn ease 5s;
+    -moz-animation: fadeIn ease 5s;
+    -o-animation: fadeIn ease 5s;
+    -ms-animation: fadeIn ease 5s;
+    }
+
+    @keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+    }
+    
+    @-moz-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+    }
+    
+    @-webkit-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+    }
+    
+    @-o-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+    }
+    
+    @-ms-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+    }
