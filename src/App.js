@@ -8,6 +8,7 @@ import adminDash from "./admin/pages/AdminDashboard";
 import Restaurant from "./admin/pages/Restuarant";
 import FoodCategory from "./admin/pages/FoodCategory";
 import Food from "./admin/pages/Food";
+import PrivateRoute from './PrivateRoute';
 
 function App() {
   return (

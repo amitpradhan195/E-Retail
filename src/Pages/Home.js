@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import UserNavbar from '../components/Navbar/Navbar';
-// import Category from './Category';
-// import Poppular from './Poppular';
-// import Restaurant from './Restuarant';
+import Category from './Category';
+import Popular from './Popular';
+import Restaurant from './Restaurant';
 import Footer from "../components/Footer/Footer";
 
 export default class Home extends Component {
@@ -10,10 +10,10 @@ export default class Home extends Component {
         return (
             <div>
                 <UserNavbar />
-                {/* <Category /> */}
-                {/* <Poppular /> */}
+                <Category />
+                <Popular />
                 <hr/>
-                {/* <Restaurant/> */}
+                <Restaurant/>
                 <Footer />
             </div>
         )

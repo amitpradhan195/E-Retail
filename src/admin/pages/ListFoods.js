@@ -14,6 +14,10 @@ export default class ListFoods extends Component {
           imgpreview:null,
           popular: [],
           food: [],
+          categorys:[],
+          resturant:[],
+          resSelect:'',
+          catSelect:'',
           modal : false,
           isupdated: false,
           config: {
@@ -29,9 +33,28 @@ export default class ListFoods extends Component {
         .then((response)=>{
           const data = response.data;
           this.setState({popular:  data});
-          // this.setState({food: data});
+          this.setState({food: data});
           console.log(this.state.popular);
         }).catch(error => console.log(error.response));
+
+      Axios.get('http://localhost:3002/resturants',this.state.config)
+      .then((response)=>{
+        const data = response.data;
+        this.setState({
+            resturant: data,
+            resSelect:data[0]._id
+          });        
+      }).catch(error => console.log(error.response));
+
+      Axios.get('http://localhost:3002/foodCat', this.state.config)
+        .then((response)=>{
+            const data = response.data;
+            this.setState({
+                categorys:data,
+                imgpreview:data.catImg,
+                catSelect:data[0]._id
+            });
+        }).catch(err=>console.log(err.response));
     }
 
     toggle=()=>{ 
@@ -85,7 +108,7 @@ export default class ListFoods extends Component {
         const data = response.data;
           this.setState({
             food: data,
-            imgpreview:`http://localhost:3002/upload/${data.foodimage}`
+            imgpreview:`http://localhost:3002/uploads/${data.foodimage}`
           });    
         console.log("data fecth");
         })
@@ -110,7 +133,9 @@ export default class ListFoods extends Component {
             { 
               foodname: this.state.food.foodname, 
               price: this.state.food.price,
-              foodimage: this.state.foodimage 
+              foodimage: this.state.foodimage, 
+              restaurant: this.state.resSelect,
+              category: this.state.catSelect
             }, this.state.config)
           .then((response) => {
             alert("Food updated successfully")
@@ -146,7 +171,7 @@ export default class ListFoods extends Component {
                   <td>{pop.foodname}</td>
                   <td>{pop.price}</td>
                   <td>
-                    <img alt="foodPic" src={`http://localhost:3002/upload/${pop.foodimage}`} style={{height: "50px",width:"50px"}}/>
+                    <img alt="foodPic" src={`http://localhost:3002/uploads/${pop.foodimage}`} style={{height: "50px",width:"50px"}}/>
                   </td>
                   <td>
                     <a className="btn btn-success" onClick={() => this.handleEdit(pop._id)}>Edit</a>
@@ -159,19 +184,44 @@ export default class ListFoods extends Component {
               }
     
               <Modal isOpen={this.state.modal}>
-                <ModalHeader toggle={this.toggle}><legend>Update</legend></ModalHeader>
+                <ModalHeader toggle={this.toggle}><legend><h3>Update Food</h3></legend></ModalHeader>
                 <ModalBody>
                   <form>
-                    <legend><h3>Update Food</h3></legend>
                     <div className="form-group">
-                      <label> Food Name</label>
+                      <label for='foodname'> Food Name</label>
                       <input type="text" name="foodname" className="form-control" 
                         value ={this.state.food.foodname} onChange={this.handleupdate}/>
                     </div>
                     <div className="form-group">
-                      <label>Food price</label>
+                      <label for='price'>Food price</label>
                       <input type="text" name="price" className="form-control"
                         value={this.state.food.price} onChange={this.handleupdate}  />
+                    </div>
+                    <div className="form-group">
+                        <label for='resOption'>
+                            <legend style={{fontSize:16}}>Choose Restaurant: </legend>
+                        </label>
+                        {' '}
+                        <select onChange={this.handleChange} value={this.state.resSelect} name='resSelect' id='resOption' style={{width:200, textAlign:'center'}}>
+                            {
+                              this.state.resturant.map(option=>
+                                  <option key={option._id} value={option._id}>{option.resturant_name}</option>
+                              )
+                            }
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label for='resOption'>
+                            <legend style={{fontSize:16}}>Choose Food Category: </legend>
+                        </label>
+                        {' '}
+                        <select onChange={this.handleChange} value={this.state.catSelect} name='catSelect' id='catOption' style={{width:200, textAlign:'center'}}>
+                          {
+                            this.state.categorys.map(option=>
+                                <option key={option._id} value={option._id}>{option.category}</option>
+                            )
+                          }
+                        </select>
                     </div>
                     <img className='img-thumbnail' width='200' 
                       src={this.state.imgpreview} alt="foodimg" />

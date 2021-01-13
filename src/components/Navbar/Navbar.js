@@ -9,6 +9,10 @@ import {
   NavItem,
   NavLink,
   NavbarBrand,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
   Modal,
   ModalHeader,
   ModalBody,
@@ -16,7 +20,8 @@ import {
 } from 'reactstrap';
 import Axios from "axios";
 import { Redirect, useHistory } from "react-router-dom";
-import { FiLogIn, FiLogOut } from "react-icons/fi";
+import { FiLogIn } from "react-icons/fi";
+import { MdAccountCircle } from "react-icons/md";
 
 export default function NavBar(props){
   const [isRegistered, setIsRegistered] = useState(false);
@@ -101,17 +106,32 @@ export default function NavBar(props){
               <NavLink className="navlinkColor" href="/">Home</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink className="navlinkColor" href="/services">Foods</NavLink>
+              <NavLink className="navlinkColor" href="#">View Cart</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink className="navlinkColor" href="#">View Order</NavLink>
             </NavItem>
             <NavItem>
               <NavLink className="navlinkColor" href="/about">About</NavLink>
             </NavItem>
-            <NavItem>
-              <NavLink className="navlinkColor" href="/contact">Contact</NavLink>
-            </NavItem>
           </Nav>
           {isRegistered?(
-            <Button onClick={handleLogout} color="danger"><FiLogOut style={{fontSize:"25px", marginRight:'5px'}}/>Log Out</Button>
+            <NavLink>
+              <UncontrolledDropdown>
+                  <DropdownToggle nav caret>
+                  <MdAccountCircle style={{fontSize:"30px", marginRight:"5px"}}/>
+                  {localStorage.getItem('email')}
+                  </DropdownToggle>
+                  <DropdownMenu right>
+                      <DropdownItem href="#">
+                      My Profile
+                      </DropdownItem>
+                      <DropdownItem onClick={handleLogout}>
+                      Log Out
+                      </DropdownItem>
+                  </DropdownMenu>
+              </UncontrolledDropdown>
+            </NavLink>
           ):(
             <Button onClick={modalLogin} color="primary"><FiLogIn style={{fontSize:"25px", marginRight:'5px'}}/>Log In</Button>
           )}
