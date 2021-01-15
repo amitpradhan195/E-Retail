@@ -47,10 +47,10 @@ export default class Popular extends Component {
   }
 
   handleFood = (foodId) => {
-    if(localStorage.length===0) {
-      alert("Please login...")
-    }
-    else{
+    // if(localStorage.length===0) {
+    //   alert("Please login first...")
+    // }
+    // else{
     this.setState({
       modal: !this.state.modal
 
@@ -64,7 +64,7 @@ export default class Popular extends Component {
         });
         console.log("data fecth");
       }).catch(error => console.log(error.response));
-    }
+    // }
   }
 
   addCart(){

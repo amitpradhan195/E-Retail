@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {Row,Col,Modal,ModalHeader,ModalBody,ModalFooter,Container} from  'reactstrap';
 import Axios from 'axios'
 import   '../components/Style/category.css';
+import { FiSearch } from "react-icons/fi";
 
 export default class Category extends Component {
     constructor(props) {
@@ -15,7 +16,7 @@ export default class Category extends Component {
             notes:'',
             quantity:'',
             totalprice:'',
-            searchedFoods:[],
+            searchedFoods:'',
             modal:false,
             config: {
                 headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
@@ -93,22 +94,34 @@ export default class Category extends Component {
           }).catch((err) => console.log(err.response));
     }
 
+    searchbyName=(e)=>{
+        if(e.target.value!=null){
+            console.log(e.target.value)
+            Axios.get(`http://localhost:3002/foods/searchByName/${e.target.value}`, this.state.config)
+            .then((response)=>{
+                const data = response.data.food;
+                console.log(response.data.food)
+                if(data.length!=0){
+                    this.setState({
+                        foods:data,
+                        searchedFoods:'Results for : '+ e.target.value
+                    })
+                }
+                else{
+                    this.setState({
+                        foods:null,
+                        searchedFoods:''
+                    })
+                }
+            }).catch((err)=>console.log(err.response))
+        }
+    }
+
+
     handleChange = (e) => {
         this.setState({
           [e.target.name]: e.target.value
         })
-    }
-
-    changeBackground(e) {
-        e.target.style.background = 'LightSalmon';
-        e.target.style.cursor = 'pointer';
-        e.target.style.filter= 'invert(100%)';
-    }
-
-    changeBackgroundBack(e) {
-        e.target.style.background = 'transparent';
-        e.target.style.cursor = 'pointer';
-        e.target.style.filter= 'sepia(100%)';
     }
 
     render() {
@@ -118,18 +131,24 @@ export default class Category extends Component {
                     <Row>
                         <Col md={12}>
                             <span>What would you like to order ?{' '}
-                            {/* <input type="text" name="search" id="search" placeholder="search food..." /> */}
+                                <input style={{border: 'none',
+                                    borderBottom: '2px solid #1ABC9C'}} 
+                                    type="text" name="search" id="search" placeholder="search food..." 
+                                    onChange={this.searchbyName}/>
+                                <FiSearch style={{fontSize:"30px", opacity:0.6}}/>
                             </span>
                         </Col>
                     </Row>
+                    <br/>
+                    
                     
                     <Row>
                         {this.state.category.map(catIcon =>
                         <Col>
                             <div key={catIcon._id}>
                                 <img alt="catPic" onClick={()=>this.searchFood(catIcon._id, catIcon.category)} 
-                                    style={{marginLeft:30}} width='50' height='50' onMouseEnter={this.changeBackground} 
-                                    onMouseLeave={this.changeBackgroundBack}
+                                    style={{marginLeft:30, width:'40px', height:'40px'}}
+                                    className="categoryList"
                                     src ={`http://localhost:3002/uploads/${catIcon.catImg}`} id="catImg"/> 
                             </div>
                         </Col>
@@ -139,12 +158,13 @@ export default class Category extends Component {
                 <hr/>
                 <div className="container">
                     <h3 style={{color:'FireBrick'}}>{this.state.catName?this.state.catName:''}</h3>
+                    <h3 style={{color:'FireBrick'}} className="text-left">{this.state.searchedFoods?this.state.searchedFoods:''}</h3>
                     <Row>
-                        {
+                        {this.state.foods!=null ?                     
                         this.state.foods.map((food => 
                             <div className="Col-md-4" id="product">
-                                <figure className="card card-product">
-                                    <img alt="foodPic" width='200' src={`http://localhost:3002/uploads/${food.foodimage}`}/>
+                                <figure className="card card-product p-2">
+                                    <img alt="foodPic" width='250' height='150' src={`http://localhost:3002/uploads/${food.foodimage}`}/>
                                     <figcaption class="info-wrap">
                                         <legend className="title">{food.foodname}</legend>
                                         <h6 className="title">Rs. {food.price}</h6>
@@ -152,7 +172,8 @@ export default class Category extends Component {
                                     <button class="btn btn-primary" onClick={()=>this.handleFood(food._id)}>Add to cart</button>
                                 </figure>
                             </div>
-                            ))
+                            )):
+                            <h3 style={{color:'FireBrick'}}>Sorry! food you searched is unavailable...</h3>
                         }
                     </Row>
                 </div>
