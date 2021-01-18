@@ -36,16 +36,8 @@ export default function NavBar(props){
 
   useEffect(()=>{
     const token = localStorage.getItem("token");
-    console.log("I am token: "+token);
     if(token!=null){
       setIsRegistered(true);
-      let role = localStorage.getItem("role");
-      if(role==="admin"){
-        history.push("/adminDashboard");
-      }
-      else{
-        history.push("/home");
-      }
     }
     else{
       setIsRegistered(false);
@@ -106,7 +98,7 @@ export default function NavBar(props){
               <NavLink className="navlinkColor" href="/">Home</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink className="navlinkColor" href="#">View Cart</NavLink>
+              <NavLink className="navlinkColor" href="/viewCart">View Cart</NavLink>
             </NavItem>
             <NavItem>
               <NavLink className="navlinkColor" href="#">View Order</NavLink>

@@ -9,6 +9,7 @@ import Restaurant from "./admin/pages/Restuarant";
 import FoodCategory from "./admin/pages/FoodCategory";
 import Food from "./admin/pages/Food";
 import PrivateRoute from './PrivateRoute';
+import Cart from './Pages/viewCart';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path='/restaurant' component={Restaurant} />
           <Route path='/foodCategory' component={FoodCategory} />
           <Route path='/food' component={Food} />
+          <PrivateRoute path='/viewCart' component={Cart} />
         </Router>
       </BrowserRouter>
     </div>
