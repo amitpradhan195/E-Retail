@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import  Navbar  from '../components/Navbar/Navbar';
 import Carousel from "../components/Carousel/Carousel";
 import Footer from "../components/Footer/Footer";
+import Category from './Category';
 import Popular from "./Popular";
 import Restaurant from "./Restaurant";
 import { useHistory } from "react-router-dom";
@@ -22,12 +23,13 @@ export default function LandingPage() {
         else{
             history.push("/")
         }
-    },[])
+    })
 
     return (
         <div>
             <Navbar/>
             <Carousel/>
+            <Category />
             <Popular/>
             <Restaurant/>
             <Footer/>

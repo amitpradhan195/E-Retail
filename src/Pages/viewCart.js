@@ -15,7 +15,6 @@ export default class Cart extends Component {
       user: [],
       cart: [],
       food: [],
-      notes:[],
       notes:'',
       viewfood: [],
       modal: false,
@@ -23,7 +22,6 @@ export default class Cart extends Component {
       totalprice: '',
       totAmt:0,
       updatedprice: 0,
-      quanity: [],
       updatedquanity: '',
       quanity:1,
       show: true,
@@ -67,12 +65,6 @@ export default class Cart extends Component {
       }).catch((err) => console.log(err.response));
   }
 
-  // ToggleClick = () => {
-  //   this.setState({
-  //     show: !this.state.show,
-  //   });
-  // }
-
   handleChange = (e) => {
     this.setState({
       viewfood:{...this.state.viewfood, [e.target.name]: (e.target.validity.valid) ? e.target.value:''}
@@ -106,7 +98,7 @@ export default class Cart extends Component {
         })
       }).catch((err) => console.log(err.response));
       alert("updated successfully")
-      window.location.reload(false);
+      window.location.reload();
   }
 
   handleOrder = () => {
@@ -122,7 +114,7 @@ export default class Cart extends Component {
         Axios.delete(`http://localhost:3002/cart/${item._id}`, this.state.config)
           .then((response)=>{
             console.log("Deleted Successfully")
-            window.location.reload(false);
+            window.location.reload();
           }).catch((err)=>console.log(err.response));
           
         console.log(response);

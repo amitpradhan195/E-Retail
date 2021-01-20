@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Input, Row, Modal, ModalHeader, ModalBody, ModalFooter, Container } from 'reactstrap'
+import { Row, Modal, ModalHeader, ModalBody, ModalFooter, Container } from 'reactstrap'
 import '../components/Style/popular.css'
 import Axios from 'axios'
 

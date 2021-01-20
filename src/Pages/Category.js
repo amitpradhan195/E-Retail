@@ -101,7 +101,7 @@ export default class Category extends Component {
             .then((response)=>{
                 const data = response.data.food;
                 console.log(response.data.food)
-                if(data.length!=0){
+                if(data.length!==0){
                     this.setState({
                         foods:data,
                         searchedFoods:'Results for : '+ e.target.value
@@ -110,7 +110,7 @@ export default class Category extends Component {
                 else{
                     this.setState({
                         foods:null,
-                        searchedFoods:''
+                        searchedFoods:'No Results found for : '+e.target.value
                     })
                 }
             }).catch((err)=>console.log(err.response))
@@ -140,7 +140,6 @@ export default class Category extends Component {
                         </Col>
                     </Row>
                     <br/>
-                    
                     
                     <Row>
                         {this.state.category.map(catIcon =>
@@ -172,9 +171,7 @@ export default class Category extends Component {
                                     <button class="btn btn-primary" onClick={()=>this.handleFood(food._id)}>Add to cart</button>
                                 </figure>
                             </div>
-                            )):
-                            <h3 style={{color:'FireBrick'}}>Sorry! food you searched is unavailable...</h3>
-                        }
+                            )):''}
                     </Row>
                 </div>
 
