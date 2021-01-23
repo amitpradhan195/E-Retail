@@ -23,7 +23,7 @@ export default function LandingPage() {
         else{
             history.push("/")
         }
-    })
+    },[history])
 
     return (
         <div>
