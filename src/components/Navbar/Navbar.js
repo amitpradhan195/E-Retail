@@ -16,7 +16,10 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter
+  ModalFooter,
+  Form,
+  Input,
+  Label
 } from 'reactstrap';
 import Axios from "axios";
 import { useHistory } from "react-router-dom";
@@ -54,12 +57,17 @@ export default function NavBar(props){
       return alert("username or password is missing");
     }
     else{
+      var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+      if (!pattern.test(email.value)) {
+        alert("Please enter valid email address.");
+      }
+      else{
         Axios.post('http://localhost:3002/users/login', {email:email.value, password:password.value})
         .then((response)=>{
           const role = response.data.role;
           if(response.data.status==='success'){
             localStorage.setItem('token', response.data.token)
-            localStorage.setItem('email', response.data.email)
+            localStorage.setItem('fullname', response.data.fullname)
             localStorage.setItem('role', response.data.role)
             if(response.data.role==="admin"){
               history.push("/adminDashboard");
@@ -77,6 +85,7 @@ export default function NavBar(props){
           return role;
         }).catch((err) => console.log(err.response))
       }
+    }
   }
 
   function handleLogout(e){
@@ -106,7 +115,7 @@ export default function NavBar(props){
               <UncontrolledDropdown>
                   <DropdownToggle nav caret>
                   <MdAccountCircle style={{fontSize:"30px", marginRight:"5px"}}/>
-                  {localStorage.getItem('email')}
+                  {localStorage.getItem('fullname')}
                   </DropdownToggle>
                   <DropdownMenu right>
                       <DropdownItem href="#">
@@ -128,25 +137,25 @@ export default function NavBar(props){
       <Modal isOpen={openLogin} toggle={modalLogin}>
                 <ModalHeader><legend>Login</legend></ModalHeader>
                 <ModalBody>
-                  <form>
+                  <Form>
                     <div className="form-group">
-                      <label>Email Id</label>
-                      <input type="text" {...email} className="form-control" placeholder="Enter email" required/>
+                      <Label>Email Id</Label>
+                      <Input type="email" {...email} className="form-control" placeholder="Enter email" required/>
                     </div>
 
                     <div className="form-group">
-                      <label>Password</label>
-                      <input type="password" {...password} className="form-control" placeholder="Enter password" required/>
+                      <Label>Password</Label>
+                      <Input type="password" {...password} className="form-control" placeholder="Enter password" required/>
                     </div>
                     
                     <div className="form-group">
                       <div className="custom-control custom-checkbox">
-                        <input type="checkbox" className="custom-control-input" id="customCheck1" />
-                        <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
+                        <Input type="checkbox" className="custom-control-input" id="customCheck1" />
+                        <Label className="custom-control-label" htmlFor="customCheck1">Remember me</Label>
                       </div>
                     </div>
-                    <button type="submit" onClick={handleLogin} className="btn btn-primary btn-block" >Log In</button>
-                  </form>
+                    <Button type="submit" onClick={handleLogin} color="primary" size="lg" block>Log In</Button>
+                  </Form>
                 </ModalBody>
                 <ModalFooter className="float-left" align="center">
                     <a className="forgot-password ">Forgot password?</a>
