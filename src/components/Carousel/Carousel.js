@@ -17,10 +17,10 @@ const items = [
   {
     src: pic1,
     altText: 'Slide 1',
-    caption: <span className="fade-in">
+    caption: <span>
       <h1 align="left">FOODIE NEPAL</h1>
       <p>FOODIE NEPAL is a leading professional food company in Nepal. Try us for amazing taste if u haven't yet.</p>
-      <Button className="btnCarousel" outline href="/contact" size="lg">CONTACT US</Button>
+      {/* <Button className="btnCarousel" outline href="/contact" size="lg">CONTACT US</Button> */}
     </span>
   },
   {
@@ -62,7 +62,7 @@ const Example = (props) => {
         key={item.src}
       >
         <img src={item.src} className="carouselImg" alt={item.altText} />
-        <CarouselCaption className="sliderContent" captionText={item.caption} />
+        <CarouselCaption className="sliderContent fade-in" captionText={item.caption} />
       </CarouselItem>
     );
   });

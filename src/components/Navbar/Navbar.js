@@ -19,12 +19,13 @@ import {
   ModalFooter
 } from 'reactstrap';
 import Axios from "axios";
-import { Redirect, useHistory } from "react-router-dom";
-import { FiLogIn } from "react-icons/fi";
+import { useHistory } from "react-router-dom";
+import { FiLogIn, FiShoppingCart } from "react-icons/fi";
 import { MdAccountCircle } from "react-icons/md";
 
+
 export default function NavBar(props){
-  const [isRegistered, setIsRegistered] = useState(false);
+  const [isLoggedin, setIsLoggedin] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
   let history = useHistory();
@@ -37,10 +38,10 @@ export default function NavBar(props){
   useEffect(()=>{
     const token = localStorage.getItem("token");
     if(token!=null){
-      setIsRegistered(true);
+      setIsLoggedin(true);
     }
     else{
-      setIsRegistered(false);
+      setIsLoggedin(false);
     }
   },[])
 
@@ -94,20 +95,13 @@ export default function NavBar(props){
         <NavbarToggler className="togglerMenu" onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
-            <NavItem>
-              <NavLink className="navlinkColor" href="/">Home</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink className="navlinkColor" href="/viewCart">View Cart</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink className="navlinkColor" href="#">View Order</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink className="navlinkColor" href="/about">About</NavLink>
-            </NavItem>
+
           </Nav>
-          {isRegistered?(
+          {isLoggedin?(
+            <>
+            <NavLink className="navlinkColor" href="/viewCart"><FiShoppingCart style={{fontSize:"25px"}}/></NavLink>
+            {/* <a href="/viewCart">{FiShoppingCart}</a> */}
+            <NavLink className="navlinkColor" href="#">View Order</NavLink>
             <NavLink>
               <UncontrolledDropdown>
                   <DropdownToggle nav caret>
@@ -124,6 +118,7 @@ export default function NavBar(props){
                   </DropdownMenu>
               </UncontrolledDropdown>
             </NavLink>
+            </>
           ):(
             <Button onClick={modalLogin} color="primary"><FiLogIn style={{fontSize:"25px", marginRight:'5px'}}/>Log In</Button>
           )}
