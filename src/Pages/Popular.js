@@ -13,7 +13,7 @@ export default class Popular extends Component {
       foodimage: '',
       food:[],
       notes:'',
-      quantity:'',
+      quantity:'1',
       popular: [],
       totalprice:'',
       modal:false,
@@ -68,25 +68,35 @@ export default class Popular extends Component {
   }
 
   addCart(){
-    Axios.post(`http://localhost:3002/cart/`,
-      {
-        food: this.state.food._id,
-        totalprice: (this.state.totalprice * this.state.quantity),
-        notes: this.state.notes,
-        quanity: this.state.quantity
-      }, this.state.config)
-      .then((response) => {
-        console.log(response);
-        this.setState({
-          modal: !this.state.modal
-        })
-      }).catch((err) => console.log(err.response));
+    if(this.state.quantity<1){
+      alert("Please Enter a valid quantity")
+    }
+    else{
+      if(localStorage.getItem('token'!=null)){
+        Axios.post(`http://localhost:3002/cart/`,
+          {
+            food: this.state.food._id,
+            totalprice: (this.state.totalprice * this.state.quantity),
+            notes: this.state.notes,
+            quanity: this.state.quantity
+          }, this.state.config)
+          .then((response) => {
+            console.log(response);
+            this.setState({
+              modal: !this.state.modal
+            })
+          }).catch((err) => console.log(err.response));
+      }
+      else{
+        alert("Please login to add cart");
+      }
+    }
   }
 
     render() {
         return (
            <div style={{backgroundColor:'OldLace'}} className="container">
-              <span className='h3' style={{color:'DarkOrange'}}>Foods for you  </span>
+              <span className='h3' style={{color:'DarkOrange'}}>ITEMS FOR YOU</span>
             <Row>
               {
                 this.state.popular.map((pop => 
@@ -106,21 +116,23 @@ export default class Popular extends Component {
            
 
             <Modal isOpen={this.state.modal}>
+              <form>
               <ModalHeader toggle={this.toggle}>Item : {this.state.food.foodname}<br/>
                       Price : Rs.{this.state.food.price}
               </ModalHeader>
               <ModalBody>
                 <p>Add notes</p>
-                <textarea id="notes" value={this.state.notes} name="notes" onChange={this.handleChange}></textarea>
+                <textarea id="notes" className="col-md-10" value={this.state.notes} placeholder="Customize food as your taste" name="notes" onChange={this.handleChange}></textarea>
                 <hr/>
                 <p>Add quantity</p>
-                <input type="number" pattern="[0-9]*" name="quantity" value={this.state.quantity} onChange={this.handleChange} min="1" max="100" />
+                <input type="number" pattern="[0-9]*" name="quantity" min={1} value={this.state.quantity} onChange={this.handleChange} min="1" max="100" />
               </ModalBody>
               <ModalFooter>
                 <Container id="ftr">
                   <button className="btn btn-lg btn-success" id="btnbag" onClick={() => this.addCart(this.state.food._id)}>Add to cart</button>
                 </Container>
               </ModalFooter>
+              </form>
             </Modal>
           </div>
         )

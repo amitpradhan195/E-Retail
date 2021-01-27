@@ -14,7 +14,7 @@ export default class Category extends Component {
             food:[],
             catName:'',
             notes:'',
-            quantity:'',
+            quantity:'1',
             totalprice:'',
             searchedFoods:'',
             modal:false,
@@ -79,19 +79,29 @@ export default class Category extends Component {
     }
 
     addCart(){
-        Axios.post(`http://localhost:3002/cart/`,
-          {
-            food: this.state.food._id,
-            totalprice: (this.state.totalprice * this.state.quantity),
-            notes: this.state.notes,
-            quanity: this.state.quantity
-          }, this.state.config)
-          .then((response) => {
-            console.log(response);
-            this.setState({
-              modal: !this.state.modal
-            })
-          }).catch((err) => console.log(err.response));
+        if(this.state.quantity<1){
+          alert("Please Enter a valid quantity")
+        }
+        else{
+          if(localStorage.getItem('token'!=null)){
+            Axios.post(`http://localhost:3002/cart/`,
+              {
+                food: this.state.food._id,
+                totalprice: (this.state.totalprice * this.state.quantity),
+                notes: this.state.notes,
+                quanity: this.state.quantity
+              }, this.state.config)
+              .then((response) => {
+                console.log(response);
+                this.setState({
+                  modal: !this.state.modal
+                })
+              }).catch((err) => console.log(err.response));
+          }
+          else{
+            alert("Please login to add cart");
+          }
+        }
     }
 
     searchbyName=(e)=>{
@@ -181,10 +191,10 @@ export default class Category extends Component {
                     </ModalHeader>
                     <ModalBody>
                         <p>Add notes</p>
-                        <textarea id="notes" value={this.state.notes} name="notes" onChange={this.handleChange}></textarea>
+                        <textarea id="notes" className="col-md-10" value={this.state.notes} placeholder="Customize food as your taste" name="notes" onChange={this.handleChange}></textarea>
                         <hr/>
                         <p>Add quantity</p>
-                        <input type="number" pattern="[0-9]*" name="quantity" value={this.state.quantity} onChange={this.handleChange} min="1" max="100" />
+                        <input type="number" pattern="[0-9]*" name="quantity" min={1} value={this.state.quantity} onChange={this.handleChange} min="1" max="100" />
                     </ModalBody>
                     <ModalFooter>
                         <Container id="ftr">

@@ -135,7 +135,7 @@ export default class ListFoods extends Component {
             <br/>
             <div className="row">
               <div className="col-md-6">
-                <h1>Add Food Category</h1>
+                <h1>Add Item Category</h1>
               </div>
               <div className="col-md-6">
                   <Button color='primary' style={{float:"right"}} onClick={this.toggle1}>

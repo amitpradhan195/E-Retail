@@ -110,7 +110,7 @@ export default function NavBar(props){
             <>
             <NavLink className="navlinkColor" href="/viewCart"><FiShoppingCart style={{fontSize:"25px"}}/></NavLink>
             {/* <a href="/viewCart">{FiShoppingCart}</a> */}
-            <NavLink className="navlinkColor" href="#">View Order</NavLink>
+            <NavLink className="navlinkColor" href="/viewOrder">View Order</NavLink>
             <NavLink>
               <UncontrolledDropdown>
                   <DropdownToggle nav caret>

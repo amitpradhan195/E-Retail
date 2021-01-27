@@ -124,12 +124,12 @@ export default class AddFood extends Component {
             <div className="container">
                 <Row>
                     <Col md={6} className="text-left mt-4">
-                        <h2 style={{color:'Crimson'}}>Add food</h2>
+                        <h2 style={{color:'Crimson'}}>Add Item</h2>
                     </Col>
                     <Col md={6} className="text-right mt-4">
                         <Button color='primary' onClick={this.toggle}>
                             <MdAdd style={{fontSize:"30px", color:"white"}} />
-                            Add Food Category
+                            Add Category
                         </Button>
                     </Col>
                 </Row>
@@ -149,7 +149,8 @@ export default class AddFood extends Component {
                                 <Label for='foodprice'>
                                     <legend style={{fontSize:18}}>Food price</legend>
                                 </Label>
-                                <NumberFormat id='foodprice' name='price' 
+                                <NumberFormat id='foodprice' name='price'
+                                    customInput={Input} 
                                     onChange={ this.handleChange}
                                     thousandSeparator 
                                 />

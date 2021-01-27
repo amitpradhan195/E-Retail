@@ -10,7 +10,7 @@ export default class AdminNavbar extends Component {
         this.state = {
              sidenavbar:false,
              isOpen:false,
-             email:'',
+             fullname:'',
              config: {
                 headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
               },
@@ -25,7 +25,7 @@ export default class AdminNavbar extends Component {
 
     componentDidMount(){
         this.setState({
-            email:localStorage.getItem('email')
+            fullname:localStorage.getItem('fullname')
         })
     }
     
@@ -53,10 +53,10 @@ export default class AdminNavbar extends Component {
                             <NavLink href="/restaurant">Restaurants</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink href="/food">Foods</NavLink>
+                            <NavLink href="/food">Items</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink href="/foodCategory">Food Category</NavLink>
+                            <NavLink href="/foodCategory">Item Category</NavLink>
                         </NavItem>
                         
                     </Nav>
@@ -64,7 +64,7 @@ export default class AdminNavbar extends Component {
                         <UncontrolledDropdown>
                             <DropdownToggle nav caret>
                             <MdAccountCircle style={{fontSize:"30px", marginRight:"5px"}}/>
-                            {this.state.email}
+                            {this.state.fullname}
                             </DropdownToggle>
                             <DropdownMenu right>
                                 <DropdownItem href="#">

@@ -10,6 +10,7 @@ import FoodCategory from "./admin/pages/FoodCategory";
 import Food from "./admin/pages/Food";
 import PrivateRoute from './PrivateRoute';
 import Cart from './Pages/viewCart';
+import Order from "./Pages/viewOrder";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path='/foodCategory' component={FoodCategory} />
           <Route path='/food' component={Food} />
           <PrivateRoute path='/viewCart' component={Cart} />
+          <PrivateRoute path='/viewOrder' component={Order} />
         </Router>
       </BrowserRouter>
     </div>
