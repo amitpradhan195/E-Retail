@@ -68,11 +68,11 @@ export default class Popular extends Component {
   }
 
   addCart(){
-    if(this.state.quantity<1){
-      alert("Please Enter a valid quantity")
-    }
-    else{
-      if(localStorage.getItem('token'!=null)){
+    // if(this.state.quantity<1){
+    //   alert("Please Enter a valid quantity")
+    // }
+    // else{
+    //   if(localStorage.getItem('token'!=null)){
         Axios.post(`http://localhost:3002/cart/`,
           {
             food: this.state.food._id,
@@ -86,11 +86,11 @@ export default class Popular extends Component {
               modal: !this.state.modal
             })
           }).catch((err) => console.log(err.response));
-      }
-      else{
-        alert("Please login to add cart");
-      }
-    }
+    //   }
+    //   else{
+    //     alert("Please login to add cart");
+    //   }
+    // }
   }
 
     render() {

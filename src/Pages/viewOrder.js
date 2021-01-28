@@ -88,6 +88,52 @@ export default class ViewOrder extends Component {
                   }
                 </tbody>
               </Table>
+
+              <Modal size="md" isOpen={this.state.modal} modalTransition={{ timeout: 200 }} backdropTransition={{ timeout: 300 }}
+                toggle={this.toggle}>
+                <ModalHeader toggle={this.toggle} style={{color:'#1f618d', backgroundColor:'#F4F6F6'}}>
+                  <h3>Foodie Nepal</h3>
+                </ModalHeader>
+                <ModalBody style={{backgroundColor:'#F8F9F9'}}>
+                  <h5>Ordered Date : <span class="h6"> {this.state.orderDate} </span></h5>
+                  
+                  <Table>
+                    <thead>
+                    <tr>
+                      <th>Food Name</th>
+                      <th>Quantity</th>
+                      <th>Price</th>
+                      <th>Total Price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        this.state.viewOrder.map(listItem=>{
+                          return(
+                            <tr key={listItem._id}>
+                              <td>{listItem.food.foodname}</td>
+                              <td>{listItem.quanity}</td>
+                              <td>{listItem.food.price}</td>
+                              <td>{listItem.food.price*listItem.quanity}</td>
+                            </tr>
+                          )
+                        })
+                      }
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colSpan="4" align="right">
+                          <h4 style={{color:'#34495E'}}>Total Amount: Rs {this.state.totAmt}</h4>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </Table>
+                </ModalBody>
+                <ModalFooter style={{backgroundColor:'#F4F6F6'}}>
+                  <Button color="primary" onClick={this.toggle}>Print Bill</Button>
+                  <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                </ModalFooter>
+              </Modal>
             </div>
         )
     }
