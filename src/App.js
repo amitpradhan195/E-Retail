@@ -8,6 +8,8 @@ import adminDash from "./admin/pages/AdminDashboard";
 import Restaurant from "./admin/pages/Restuarant";
 import FoodCategory from "./admin/pages/FoodCategory";
 import Food from "./admin/pages/Food";
+import ViewRes from "./Pages/ResturantFood";
+import ViewProfile from "./Pages/viewProfile";
 import PrivateRoute from './PrivateRoute';
 import Cart from './Pages/viewCart';
 import Order from "./Pages/viewOrder";
@@ -17,13 +19,15 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Router>
-          <Route exact path='/' component={LandingPage}/>
+          <Route exact path='/' component={LandingPage} />
           <Route path='/register' component={Register} />
           <Route path='/home' component={Home} />
           <Route path='/adminDashboard' component={adminDash} />
           <Route path='/restaurant' component={Restaurant} />
           <Route path='/foodCategory' component={FoodCategory} />
           <Route path='/food' component={Food} />
+          <Route path='/viewRes/:id' component={ViewRes} />
+          <Route path='/viewProfile' component={ViewProfile} />
           <PrivateRoute path='/viewCart' component={Cart} />
           <PrivateRoute path='/viewOrder' component={Order} />
         </Router>

@@ -7,7 +7,6 @@ import { Table, Modal, ModalHeader, ModalBody, ModalFooter, Label, Input, FormGr
 import UserNavbar from "../components/Navbar/Navbar";
 
 export default class Cart extends Component {
-
   constructor(props) {
     super(props)
 

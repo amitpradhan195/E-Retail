@@ -36,11 +36,11 @@ export default class Restaurant extends Component {
               this.state.popular.map((pop => 
                 <div key={pop._id} className="Col-md-4" id="product">
                   <figure className="card card-product">
-                    <Link to={{ pathname: `/foods/${pop._id}`,}}>
+                    <Link to={{ pathname: `/viewRes/${pop._id}`,}}>
                     <img width='200' height='200' alt='restaurantPic' src={`http://localhost:3002/uploads/${pop.res_image}`}/></Link>
                     <figcaption className="info-wrap">
                       <h4 className="title">
-                        <Link to={{ pathname: `/foods/${pop._id}`,}}>
+                        <Link to={{ pathname: `/viewRes/${pop._id}`,}}>
                         {pop.resturant_name}</Link>
                       </h4>
                     </figcaption>

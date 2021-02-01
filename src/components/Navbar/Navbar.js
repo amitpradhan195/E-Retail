@@ -6,7 +6,6 @@ import {
   Button,
   NavbarToggler,
   Nav,
-  NavItem,
   NavLink,
   NavbarBrand,
   UncontrolledDropdown,
@@ -26,7 +25,6 @@ import { useHistory } from "react-router-dom";
 import { FiLogIn, FiShoppingCart } from "react-icons/fi";
 import { MdAccountCircle } from "react-icons/md";
 
-
 export default function NavBar(props){
   const [isLoggedin, setIsLoggedin] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -37,16 +35,19 @@ export default function NavBar(props){
   const password = useFormInput();
   const toggle = () => setIsOpen(!isOpen);
   const modalLogin = () => setOpenLogin(!openLogin);
+  const [fullname, setFullname] = useState();
 
   useEffect(()=>{
-    const token = localStorage.getItem("token");
-    if(token!=null){
+    let tokenGet = localStorage.getItem("token");
+    let fullnameGet = localStorage.getItem("fullname");
+    if(tokenGet!=null){
+      setFullname(fullnameGet);
       setIsLoggedin(true);
     }
     else{
       setIsLoggedin(false);
     }
-  },[])
+  },[]);
 
   function handleLogin(e){ 
     e.preventDefault();
@@ -97,6 +98,9 @@ export default function NavBar(props){
     }
   }
 
+  // console.log("Full Name : "+fullname)
+  console.log("Full Name : "+ localStorage.getItem('fullname'))
+
   return (
     <div>
       <Navbar className="navStyle" sticky expand="md">
@@ -104,7 +108,6 @@ export default function NavBar(props){
         <NavbarToggler className="togglerMenu" onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
-
           </Nav>
           {isLoggedin?(
             <>
@@ -114,11 +117,11 @@ export default function NavBar(props){
             <NavLink>
               <UncontrolledDropdown>
                   <DropdownToggle nav caret>
-                  <MdAccountCircle style={{fontSize:"30px", marginRight:"5px"}}/>
-                  {localStorage.getItem('fullname')}
+                    <MdAccountCircle style={{fontSize:"30px", marginRight:"5px"}}/>
+                    {fullname}
                   </DropdownToggle>
                   <DropdownMenu right>
-                      <DropdownItem href="#">
+                      <DropdownItem href="/viewProfile">
                       My Profile
                       </DropdownItem>
                       <DropdownItem onClick={handleLogout}>
@@ -168,11 +171,9 @@ export default function NavBar(props){
 
 function useFormInput(initialValue){
   const [value, setValue] = useState(initialValue)
-
   function handleChange(e){
     setValue(e.target.value);
   }
-
   return {
     value,
     onChange:handleChange
