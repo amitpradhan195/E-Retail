@@ -35,13 +35,10 @@ export default function NavBar(props){
   const password = useFormInput();
   const toggle = () => setIsOpen(!isOpen);
   const modalLogin = () => setOpenLogin(!openLogin);
-  const [fullname, setFullname] = useState();
 
   useEffect(()=>{
     let tokenGet = localStorage.getItem("token");
-    let fullnameGet = localStorage.getItem("fullname");
     if(tokenGet!=null){
-      setFullname(fullnameGet);
       setIsLoggedin(true);
     }
     else{
@@ -98,9 +95,6 @@ export default function NavBar(props){
     }
   }
 
-  // console.log("Full Name : "+fullname)
-  console.log("Full Name : "+ localStorage.getItem('fullname'))
-
   return (
     <div>
       <Navbar className="navStyle" sticky expand="md">
@@ -118,7 +112,7 @@ export default function NavBar(props){
               <UncontrolledDropdown>
                   <DropdownToggle nav caret>
                     <MdAccountCircle style={{fontSize:"30px", marginRight:"5px"}}/>
-                    {fullname}
+                    {window.localStorage.getItem("fullname")}
                   </DropdownToggle>
                   <DropdownMenu right>
                       <DropdownItem href="/viewProfile">
@@ -138,33 +132,33 @@ export default function NavBar(props){
       </Navbar>
 
       <Modal isOpen={openLogin} toggle={modalLogin}>
-                <ModalHeader><legend>Login</legend></ModalHeader>
-                <ModalBody>
-                  <Form>
-                    <div className="form-group">
-                      <Label>Email Id</Label>
-                      <Input type="email" {...email} className="form-control" placeholder="Enter email" required/>
-                    </div>
+        <ModalHeader><legend>Login</legend></ModalHeader>
+        <ModalBody>
+          <Form>
+            <div className="form-group">
+              <Label>Email Id</Label>
+              <Input type="email" {...email} className="form-control" placeholder="Enter email" required/>
+            </div>
 
-                    <div className="form-group">
-                      <Label>Password</Label>
-                      <Input type="password" {...password} className="form-control" placeholder="Enter password" required/>
-                    </div>
-                    
-                    <div className="form-group">
-                      <div className="custom-control custom-checkbox">
-                        <Input type="checkbox" className="custom-control-input" id="customCheck1" />
-                        <Label className="custom-control-label" htmlFor="customCheck1">Remember me</Label>
-                      </div>
-                    </div>
-                    <Button type="submit" onClick={handleLogin} color="primary" size="lg" block>Log In</Button>
-                  </Form>
-                </ModalBody>
-                <ModalFooter className="float-left" align="center">
-                    <a className="forgot-password ">Forgot password?</a>
-                    <p className=""> Not registered yet? <a href="/register">sign up?</a></p>
-                </ModalFooter>     
-              </Modal>
+            <div className="form-group">
+              <Label>Password</Label>
+              <Input type="password" {...password} className="form-control" placeholder="Enter password" required/>
+            </div>
+            
+            <div className="form-group">
+              <div className="custom-control custom-checkbox">
+                <Input type="checkbox" className="custom-control-input" id="customCheck1" />
+                <Label className="custom-control-label" htmlFor="customCheck1">Remember me</Label>
+              </div>
+            </div>
+            <Button type="submit" onClick={handleLogin} color="primary" size="lg" block>Log In</Button>
+          </Form>
+        </ModalBody>
+        <ModalFooter className="float-left" align="center">
+            <a className="forgot-password ">Forgot password?</a>
+            <p className=""> Not registered yet? <a href="/register">sign up?</a></p>
+        </ModalFooter>     
+      </Modal>
     </div>
   );
 }

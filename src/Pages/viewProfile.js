@@ -1,25 +1,46 @@
 import React, { Component } from 'react'
 import Axios from 'axios';
 import UserNavbar from '../components/Navbar/Navbar';
+import {
+    Button,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    Form,
+    Input,
+    Label,
+    FormGroup
+  } from 'reactstrap';
 
 export default class ProfileUpdate extends Component {
     constructor(props) {
         super(props)
         this.state = {
             user: null,
+            isShow:false,
+            currentPassword:'',
+            newPass:false,
             config: {
                 headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
             }
         }
     }
+
     componentDidMount() {
         Axios.get('http://localhost:3002/users/me', this.state.config)
             .then((response) => {
                 this.setState({
                     user: response.data
                 })
+                // console.log(response.data)
             });
-        console.log(localStorage.getItem('fullname'))
+    }
+
+    openModal = () =>{
+        this.setState({
+            isShow: !this.state.isShow
+        })
     }
     
     handleupdate = (e) => {
@@ -27,15 +48,43 @@ export default class ProfileUpdate extends Component {
         Axios.put('http://localhost:3002/users/me', this.state.user, this.state.config)
             .then((response) => {
                 console.log(response.data);
-                localStorage.setItem('fullname', JSON.stringify(response.data.fullname));
+                localStorage.setItem('fullname', response.data.fullname);
+                alert("Profile updated successfully")
+                this.props.history.push('/viewProfile');
             })
             .catch((err) => console.log(err.response))
-        // this.props.history.push('/home');
-        window.location.reload();
     }
+
+    verifyPassword = (e) => {
+        e.preventDefault();
+        let passwordValue = this.state.currentPassword;
+        let userIdValue = this.state.user._id;
+        Axios.post('http://localhost:3002/users/verifyPassword', {password:passwordValue, id:userIdValue},  this.state.config)
+            .then((response) => {
+                console.log(response.data);
+                if (response.data.status===200){
+                    this.setState({
+                        newPass:true
+                    })
+                    e.target.value="";
+                }
+                else{
+                    alert("Invalid Password");
+                }
+            })
+            .catch((err) => console.log(err.response));
+    }
+
     handleChange(e) {
         this.setState({
             user: { ...this.state.user, [e.target.name]: e.target.value }
+        })
+    }
+
+    handlePasswordChange(e){
+        e.preventDefault();
+        this.setState({
+            [e.target.name]:e.target.value
         })
     }
 
@@ -59,16 +108,45 @@ export default class ProfileUpdate extends Component {
                         <input type="text" name="email" className="form-control"
                         value={this.state.user.email}  onChange={(e) => this.handleChange(e)}  />
                     </div>
-                    {/* <div className="form-group">
-                        <label>Password</label>
-                        <input type="password" name="password" className="form-control" placeholder="Enter password"
-                        value={this.state.user.password}  onChange={(e) => this.handleChange(e)}  disabled />
-                    </div> */}
                     <button type="submit" className="btn btn-primary btn-block" onClick={this.handleupdate}>Update</button>
+                    <a onClick={this.openModal} style={{cursor:'pointer'}}>Change password</a>
                 </form>
+
+                <Modal isOpen={this.state.isShow} toggle={this.openModal}>
+                    <ModalHeader><legend>Change Password</legend></ModalHeader>
+                    <ModalBody>
+                        <Form>
+                            {this.state.newPass?
+                                (
+                                    <div>
+                                    <FormGroup>
+                                        <Label>New password</Label>
+                                        <Input type="password" onChange={(e) => this.handlePasswordChange(e)} name="newPassword" className="form-control" placeholder="Enter new password" required/>
+                                    </FormGroup>
+
+                                    <FormGroup>
+                                        <Label>Retype password</Label>
+                                        <Input type="password" onChange={(e) => this.handlePasswordChange(e)} name="retypePassword" className="form-control" placeholder="Retype new password" required/>
+                                    </FormGroup>
+                                    <Button type="submit" color="primary" size="lg" block>Update password</Button>
+                                    </div>
+                                )
+                                :
+                                (
+                                    <div>
+                                        <FormGroup>
+                                            <Label>Current password</Label>
+                                            <Input type="password" onChange={(e) => this.handlePasswordChange(e)} name="currentPassword" className="form-control" placeholder="Enter current password" required/>
+                                        </FormGroup>
+                                        <Button type="submit"  onClick={this.verifyPassword} color="primary" size="lg" block>Verify password</Button>
+                                    </div>
+                                )
+                            }
+                        </Form>
+                    </ModalBody>    
+                </Modal>
             </div>
-        )
+        )}
     }
-}
 }
 
