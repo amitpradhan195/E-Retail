@@ -6,7 +6,6 @@ import {
     Modal,
     ModalHeader,
     ModalBody,
-    ModalFooter,
     Form,
     Input,
     Label,
@@ -20,6 +19,8 @@ export default class ProfileUpdate extends Component {
             user: null,
             isShow:false,
             currentPassword:'',
+            newPassword:'',
+            retypePassword:'',
             newPass:false,
             config: {
                 headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
@@ -33,7 +34,6 @@ export default class ProfileUpdate extends Component {
                 this.setState({
                     user: response.data
                 })
-                // console.log(response.data)
             });
     }
 
@@ -52,7 +52,24 @@ export default class ProfileUpdate extends Component {
                 alert("Profile updated successfully")
                 this.props.history.push('/viewProfile');
             })
-            .catch((err) => console.log(err.response))
+            .catch((err) => console.log(err.response));
+    }
+
+    changePassword = (e) => {
+        e.preventDefault();
+        if(this.state.newPassword!=this.state.retypePassword){
+            alert("Password did not matched");
+        }
+        else{
+            Axios.put('http://localhost:3002/users/updatePassword', {password:this.state.newPassword, id:this.state.user._id}, this.state.config)
+                .then((response) => {
+                    if(response.data.status===200){
+                        alert("Password changed successfully");
+                        window.location.reload();
+                    }
+                })
+                .catch((err) => console.log(err.response));
+        }
     }
 
     verifyPassword = (e) => {
@@ -64,7 +81,8 @@ export default class ProfileUpdate extends Component {
                 console.log(response.data);
                 if (response.data.status===200){
                     this.setState({
-                        newPass:true
+                        newPass:true,
+                        currentPassword:''
                     })
                     e.target.value="";
                 }
@@ -128,7 +146,7 @@ export default class ProfileUpdate extends Component {
                                         <Label>Retype password</Label>
                                         <Input type="password" onChange={(e) => this.handlePasswordChange(e)} name="retypePassword" className="form-control" placeholder="Retype new password" required/>
                                     </FormGroup>
-                                    <Button type="submit" color="primary" size="lg" block>Update password</Button>
+                                    <Button type="submit" onClick={this.changePassword} color="primary" size="lg" block>Update password</Button>
                                     </div>
                                 )
                                 :
