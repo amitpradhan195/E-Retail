@@ -94,9 +94,9 @@ export default class ViewOrder extends Component {
                 <ModalHeader toggle={this.toggle} style={{color:'#1f618d', backgroundColor:'#F4F6F6'}}>
                   <h3>Foodie Nepal</h3>
                 </ModalHeader>
-                <ModalBody style={{backgroundColor:'#F8F9F9'}}>
+                <ModalBody className="printDiv" style={{backgroundColor:'#F8F9F9'}}>
+                  <h3 className="billHeader">Foodie Nepal</h3>
                   <h5>Ordered Date : <span class="h6"> {this.state.orderDate} </span></h5>
-                  
                   <Table>
                     <thead>
                     <tr>
@@ -130,8 +130,8 @@ export default class ViewOrder extends Component {
                   </Table>
                 </ModalBody>
                 <ModalFooter style={{backgroundColor:'#F4F6F6'}}>
-                  <Button color="primary" onClick={this.toggle}>Print Bill</Button>
-                  <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                  <Button color="primary" onClick={()=>window.print()}>Print Bill</Button>
+                  <Button color="secondary" onClick={this.toggle}>Close</Button>
                 </ModalFooter>
               </Modal>
             </div>

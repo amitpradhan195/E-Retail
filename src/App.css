@@ -36,3 +36,28 @@
     transform: rotate(360deg);
   }
 }
+
+.billHeader{
+  visibility:hidden;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .billHeader{
+    visibility: visible;
+    color:steelblue;
+  }
+
+  .printDiv, .printDiv * {
+    visibility: visible;
+  }
+
+  .printDiv {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
