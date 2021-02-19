@@ -1,19 +1,18 @@
 import React, { Component } from 'react'
 import { Label, FormGroup, Button, Input } from 'reactstrap'
 import Axios from 'axios'
-import ListResturant from './ListResturant';
+import ListBrands from './ListBrands';
 import AdminNavbar from '../Navbar/adminNavbar';
 
-export default class AddRestuarant extends Component {
+export default class AddBrand extends Component {
   constructor(props) {
     super(props)
   
     this.state = {
-       resturant_name: null,
-       resturant_address: null,
-       fooditem: null,
-       res_image: null,
-       food : [],
+       brand_name: null,
+       productItem: null,
+       brand_image: null,
+       product : [],
        imgPreview:null,
        config: {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
@@ -38,23 +37,23 @@ export default class AddRestuarant extends Component {
 
     handleFoodChange = (e) => {
       this.setState({
-        fooditem : e.target.value
+        productItem : e.target.value
       });
     }
 
-    addRest = () => {
+    addBrand = (e) => {
+      e.preventDefault();
       const data = new FormData();
       data.append('imageFile',this.state.selectedFile)
-      Axios.post('http://localhost:3002/upload', data, this.state.config)
+      Axios.post('http://localhost:3002/uploads', data, this.state.config)
       .then((response) => {
           this.setState({
-              res_image: response.data.filename
+              brand_image: response.data.filename
           })
-          Axios.post('http://localhost:3002/resturants',this.state,this.state.config)
+          Axios.post('http://localhost:3002/brands',this.state,this.state.config)
           .then((response) => {
-            alert("Restaurant added successfully");
-            window.location.reload(false)
-            console.log(response.data)
+            alert("Brand added successfully");
+            window.location.reload();
           })
           .catch((err) => console.log(err.response))
       }).catch((err) => console.log(err.response))
@@ -66,23 +65,19 @@ export default class AddRestuarant extends Component {
         <>
         <AdminNavbar/>
         <div className="container">
-          <h2 style={{color:'#34495E'}}>Add Resturant</h2><hr/>
+          <h2 style={{color:'#34495E'}}>Add Brands</h2><hr/>
           <div className="row">
             <div className="col-md-8">
               <form style={{backgroundColor:'#EAF2F8'}} className="p-3">
                 <FormGroup>
-                  <Input type='text' id="resturantname" name='resturant_name' value={this.state.resturant_name}
-                    onChange={this.handleChange} placeholder="Enter restaurant name" required/>
+                  <Input type='text' id="brandName" name='brand_name' value={this.state.brand_name}
+                    onChange={this.handleChange} placeholder="Enter brand name" required/>
                 </FormGroup>
-                <FormGroup>
-                  <Input type='text' id='resturant_address' name='resturant_address' value={this.state.resturant_address}
-                    onChange={ this.handleChange} placeholder="Enter restaurant address" required/>
-                    </FormGroup>
                   <FormGroup style={{display: "ruby"}}>
-                    <Label className="btn btn-outline-info float-left" htmlFor="filePicker">Upload image for restaurant</Label>
-                    <Input id="filePicker" style={{visibility:"hidden"}} type='file' name='res_image' onChange={this.handleFileSelect}/>
+                    <Label className="btn btn-outline-info float-left" htmlFor="filePicker">Upload image for brand</Label>
+                    <Input id="filePicker" style={{visibility:"hidden"}} type='file' name='brand_image' onChange={this.handleFileSelect}/>
                   </FormGroup>
-                  <Button color='success' onClick={this.addRest} block>Add Resturant</Button>
+                  <Button color='success' onClick={this.addBrand} block>Add Brand</Button>
               </form>
             </div>
             <div className="col-md-4 flex">
@@ -92,8 +87,8 @@ export default class AddRestuarant extends Component {
             </div>
           </div>
               <hr></hr>
-              <h2 style={{color:'#34495E'}}>View Restaurant</h2>
-            <ListResturant />
+              <h2 style={{color:'#34495E'}}>View Brands</h2>
+            <ListBrands />
           </div>
           </>
         )

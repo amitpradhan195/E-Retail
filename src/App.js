@@ -5,10 +5,10 @@ import LandingPage from './Pages/LandingPage';
 import Register from './Pages/register';
 import Home from "./Pages/Home";
 import adminDash from "./admin/pages/AdminDashboard";
-import Restaurant from "./admin/pages/Restuarant";
-import FoodCategory from "./admin/pages/FoodCategory";
-import Food from "./admin/pages/Food";
-import ViewRes from "./Pages/ResturantFood";
+import Brands from "./admin/pages/Brand";
+import Category from "./admin/pages/Category";
+import Products from "./admin/pages/Product";
+import ViewBrand from "./Pages/BrandProduct";
 import ViewProfile from "./Pages/viewProfile";
 import PrivateRoute from './PrivateRoute';
 import Cart from './Pages/viewCart';
@@ -23,10 +23,10 @@ function App() {
           <Route path='/register' component={Register} />
           <Route path='/home' component={Home} />
           <Route path='/adminDashboard' component={adminDash} />
-          <Route path='/restaurant' component={Restaurant} />
-          <Route path='/foodCategory' component={FoodCategory} />
-          <Route path='/food' component={Food} />
-          <Route path='/viewRes/:id' component={ViewRes} />
+          <Route path='/brands' component={Brands} />
+          <Route path='/categories' component={Category} />
+          <Route path='/products' component={Products} />
+          <Route path='/viewBrand/:id' component={ViewBrand} />
           <Route path='/viewProfile' component={ViewProfile} />
           <PrivateRoute path='/viewCart' component={Cart} />
           <PrivateRoute path='/viewOrder' component={Order} />

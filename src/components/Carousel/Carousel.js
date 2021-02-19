@@ -9,17 +9,17 @@ import {
   Button
 } from 'reactstrap';
 
-import pic1 from "../../assets/pic1.jpeg";
-import pic2 from "../../assets/pic2.jpeg";
-import pic3 from "../../assets/pic3.jpeg";
+import pic1 from "../../assets/slider1.jpg";
+import pic2 from "../../assets/slider2.jpg";
+import pic3 from "../../assets/slider3.jpg";
 
 const items = [
   {
     src: pic1,
     altText: 'Slide 1',
     caption: <span>
-      <h1 align="left">FOODIE NEPAL</h1>
-      <p>FOODIE NEPAL is a leading professional food company in Nepal. Try us for amazing taste if u haven't yet.</p>
+      <h1 align="left" style={{color:'#F39C12'}}>E-Retail</h1>
+      <p>E-Retail is a leading professional e-commerce company in Nepal. Try us for amazing shopping experience if u haven't yet.</p>
       {/* <Button className="btnCarousel" outline href="/contact" size="lg">CONTACT US</Button> */}
     </span>
   },

@@ -10,8 +10,8 @@ export default class ViewOrder extends Component {
         this.state = {
             user : '',
             modal:false,
-            food : '',
-            quanity : '',
+            product : '',
+            quantity : '',
             orderDate:'',
             totprice: '',
             totAmt:0,
@@ -62,7 +62,7 @@ export default class ViewOrder extends Component {
     
     render() {
       this.state.totAmt = this.state.viewOrder.reduce(
-        (prevValue, currentValue) => prevValue + currentValue.food.price*currentValue.quanity,0);
+        (prevValue, currentValue) => prevValue + currentValue.product.price*currentValue.quantity,0);
         return (
             <div>
             <UserNavbar/>
@@ -92,15 +92,15 @@ export default class ViewOrder extends Component {
               <Modal size="md" isOpen={this.state.modal} modalTransition={{ timeout: 200 }} backdropTransition={{ timeout: 300 }}
                 toggle={this.toggle}>
                 <ModalHeader toggle={this.toggle} style={{color:'#1f618d', backgroundColor:'#F4F6F6'}}>
-                  <h3>Foodie Nepal</h3>
+                  <h3>E-Retail</h3>
                 </ModalHeader>
                 <ModalBody className="printDiv" style={{backgroundColor:'#F8F9F9'}}>
-                  <h3 className="billHeader">Foodie Nepal</h3>
+                  <h3 className="billHeader">E-Retail</h3>
                   <h5>Ordered Date : <span class="h6"> {this.state.orderDate} </span></h5>
                   <Table>
                     <thead>
                     <tr>
-                      <th>Food Name</th>
+                      <th>Product Name</th>
                       <th>Quantity</th>
                       <th>Price</th>
                       <th>Total Price</th>
@@ -111,10 +111,10 @@ export default class ViewOrder extends Component {
                         this.state.viewOrder.map(listItem=>{
                           return(
                             <tr key={listItem._id}>
-                              <td>{listItem.food.foodname}</td>
-                              <td>{listItem.quanity}</td>
-                              <td>{listItem.food.price}</td>
-                              <td>{listItem.food.price*listItem.quanity}</td>
+                              <td>{listItem.product.productName}</td>
+                              <td>{listItem.quantity}</td>
+                              <td>{listItem.product.price}</td>
+                              <td>{listItem.product.price*listItem.quantity}</td>
                             </tr>
                           )
                         })

@@ -3,20 +3,20 @@ import { Table, Button, Modal, ModalHeader, ModalBody, ModalFooter,Input } from 
 import Axios from 'axios'
 
 
-export default class ListFoods extends Component {
+export default class ListProducts extends Component {
     constructor(props) {
         super(props)
         this.state = {
           _id: '',
-          foodname: '',
-          foodimage: '',
+          productName: '',
+          productImage: '',
           price:'',
           imgpreview:null,
           popular: [],
-          food: [],
-          categorys:[],
-          resturant:[],
-          resSelect:'',
+          product: [],
+          categories:[],
+          brand:[],
+          brandSelect:'',
           catSelect:'',
           modal : false,
           isupdated: false,
@@ -29,28 +29,28 @@ export default class ListFoods extends Component {
     } 
              
     componentDidMount() {
-      Axios.get('http://localhost:3002/foods',this.config)
+      Axios.get('http://localhost:3002/products',this.config)
         .then((response)=>{
           const data = response.data;
           this.setState({popular:  data});
-          this.setState({food: data});
+          this.setState({product: data});
           console.log(this.state.popular);
         }).catch(error => console.log(error.response));
 
-      Axios.get('http://localhost:3002/resturants',this.state.config)
+      Axios.get('http://localhost:3002/brands',this.state.config)
       .then((response)=>{
         const data = response.data;
         this.setState({
-            resturant: data,
-            resSelect:data[0]._id
+            brand: data,
+            brandSelect:data[0]._id
           });        
       }).catch(error => console.log(error.response));
 
-      Axios.get('http://localhost:3002/foodCat', this.state.config)
+      Axios.get('http://localhost:3002/categories', this.state.config)
         .then((response)=>{
             const data = response.data;
             this.setState({
-                categorys:data,
+                categories:data,
                 imgpreview:data.catImg,
                 catSelect:data[0]._id
             });
@@ -73,12 +73,12 @@ export default class ListFoods extends Component {
       e.preventDefault();
       const data = new FormData()
       data.append('imageFile', this.state.selectedFile)
-      Axios.post('http://localhost:3002/upload', data, this.state.config)
+      Axios.post('http://localhost:3002/uploads', data, this.state.config)
         .then((response) => {
           this.setState({
-            foodname: this.state.foodname,
+            productName: this.state.productName,
             price:this.state.price,
-            foodimage: response.data.filename
+            productImage: response.data.filename
           })
         }).catch((err) => console.log(err.response))
     }
@@ -90,8 +90,8 @@ export default class ListFoods extends Component {
       })
     }
 
-    deletefood(foodId){
-      Axios.delete(`http://localhost:3002/foods/${foodId}`, this.state.config)
+    deleteProduct(productId){
+      Axios.delete(`http://localhost:3002/products/${productId}`, this.state.config)
       .then((response) => {
         console.log(response);
         window.location.reload()   
@@ -99,16 +99,18 @@ export default class ListFoods extends Component {
       .catch(error => console.log(error.response));
     }
 
-    handleEdit = (foodId) => {
+    handleEdit = (productId) => {
       this.setState({
         modal: !this.state.modal
       });
-      Axios.get(`http://localhost:3002/foods/${foodId}`,this.state.config)
+      Axios.get(`http://localhost:3002/products/${productId}`,this.state.config)
       .then((response)=>{
         const data = response.data;
           this.setState({
-            food: data,
-            imgpreview:`http://localhost:3002/uploads/${data.foodimage}`
+            product: data,
+            brandSelect:data.brand,
+            catSelect:data.category,
+            imgpreview:`http://localhost:3002/uploads/${data.productImage}`
           });    
         console.log("data fecth");
         })
@@ -117,28 +119,28 @@ export default class ListFoods extends Component {
 
     handleupdate = (e) =>{
       this.setState({
-        food: { ...this.state.food, [e.target.name]: e.target.value }
+        product: { ...this.state.product, [e.target.name]: e.target.value }
       })
     }
      
-    updateFood = (foodId) => {
+    updateProduct = (productId) => {
       const data = new FormData()
       data.append('imageFile', this.state.selectedFile)
-      Axios.post('http://localhost:3002/upload', data, this.state.config)
+      Axios.post('http://localhost:3002/uploads', data, this.state.config)
         .then((response) => {
           this.setState({
-            foodimage: response.data.filename
+            productImage: response.data.filename
           })
-          Axios.put(`http://localhost:3002/foods/${foodId}`, 
+          Axios.put(`http://localhost:3002/products/${productId}`, 
             { 
-              foodname: this.state.food.foodname, 
-              price: this.state.food.price,
-              foodimage: this.state.foodimage, 
-              restaurant: this.state.resSelect,
+              productName: this.state.product.productName, 
+              price: this.state.product.price,
+              productImage: this.state.productImage, 
+              brand: this.state.brandSelect,
               category: this.state.catSelect
             }, this.state.config)
           .then((response) => {
-            alert("Food updated successfully")
+            alert("Product updated successfully")
             console.log(response.data)
             window.location.reload();
           })
@@ -153,11 +155,11 @@ export default class ListFoods extends Component {
             <Table hover>
             <thead>
               <tr>
-                <th>Restaurant Name</th>
+                <th>Brand Name</th>
                 <th>Category</th>
-                <th>Food Name</th>
-                <th>Food price</th>
-                <th>Food image</th>
+                <th>Product Name</th>
+                <th>Product price</th>
+                <th>Product image</th>
                 <th>Edit</th>
                 <th>Delete</th>
               </tr>
@@ -166,69 +168,70 @@ export default class ListFoods extends Component {
               {
                 this.state.popular.map(pop => 
                 <tr key={pop._id}>
-                  <td>{pop.restaurant.resturant_name}</td>
+                  <td>{pop.brand.brand_name}</td>
                   <td>{pop.category.category}</td>
-                  <td>{pop.foodname}</td>
+                  <td>{pop.productName}</td>
                   <td>{pop.price}</td>
                   <td>
-                    <img alt="foodPic" src={`http://localhost:3002/uploads/${pop.foodimage}`} style={{height: "50px",width:"50px"}}/>
+                    <img alt="productPic" src={`http://localhost:3002/uploads/${pop.productImage}`} style={{height: "50px",width:"50px"}}/>
                   </td>
                   <td>
                     <a className="btn btn-success" onClick={() => this.handleEdit(pop._id)}>Edit</a>
                   </td>
                   <td>
-                    <a onClick={() => this.deletefood(pop._id)} className="btn btn-danger" href="">Delete</a>
+                    <a onClick={() => this.deleteProduct(pop._id)} className="btn btn-danger" href="">Delete</a>
                   </td>
                 </tr>
                 )
               }
     
               <Modal isOpen={this.state.modal}>
-                <ModalHeader toggle={this.toggle}><legend><h3>Update Food</h3></legend></ModalHeader>
+                <ModalHeader toggle={this.toggle}><legend><h3>Update Product</h3></legend></ModalHeader>
                 <ModalBody>
                   <form>
                     <div className="form-group">
-                      <label for='foodname'> Food Name</label>
-                      <input type="text" name="foodname" className="form-control" 
-                        value ={this.state.food.foodname} onChange={this.handleupdate}/>
+                      <label for='productName'> Product Name</label>
+                      <input type="text" name="productName" className="form-control" 
+                        value ={this.state.product.productName} onChange={this.handleupdate}/>
                     </div>
                     <div className="form-group">
-                      <label for='price'>Food price</label>
+                      <label for='price'>Product price</label>
                       <input type="text" name="price" className="form-control"
-                        value={this.state.food.price} onChange={this.handleupdate}  />
+                        value={this.state.product.price} onChange={this.handleupdate}  />
                     </div>
                     <div className="form-group">
-                        <label for='resOption'>
-                            <legend style={{fontSize:16}}>Choose Restaurant: </legend>
+                        <label for='brandOption'>
+                            <legend style={{fontSize:16}}>Choose Brand: </legend>
                         </label>
                         {' '}
-                        <select onChange={this.handleChange} value={this.state.resSelect} name='resSelect' id='resOption' style={{width:200, textAlign:'center'}}>
+                        <select onChange={this.handleChange} value={this.state.brandSelect} name='brandSelect' id='brandOption' style={{width:200, textAlign:'center'}}>
                             {
-                              this.state.resturant.map(option=>
-                                  <option key={option._id} value={option._id}>{option.resturant_name}</option>
+                              this.state.brand.map(option=>
+                                  <option key={option._id} value={option._id}>{option.brand_name}</option>
                               )
                             }
                         </select>
                     </div>
                     <div className="form-group">
-                        <label for='resOption'>
-                            <legend style={{fontSize:16}}>Choose Food Category: </legend>
+                        <label for='catOption'>
+                            <legend style={{fontSize:16}}>Choose Product Category: </legend>
                         </label>
                         {' '}
                         <select onChange={this.handleChange} value={this.state.catSelect} name='catSelect' id='catOption' style={{width:200, textAlign:'center'}}>
                           {
-                            this.state.categorys.map(option=>
+                            this.state.categories.map(option=>
                                 <option key={option._id} value={option._id}>{option.category}</option>
                             )
                           }
                         </select>
                     </div>
                     <img className='img-thumbnail' width='200' 
-                      src={this.state.imgpreview} alt="foodimg" />
-                    <Input type='file' name='foodimage' id='foodimg'
+                      src={this.state.imgpreview} alt="productImg" />
+                    <Input type='file' name='productImage' id='productImg'
                       onChange={this.handleFileSelect} value={this.state.image}/> 
-                    <Button className="btn btn-primary btn-block" 
-                      onClick={() => this.updateFood(this.state.food._id)}>Update</Button>
+                      <br/>
+                    <Button color="primary" block 
+                      onClick={() => this.updateProduct(this.state.product._id)}>Update</Button>
                   </form>     
                 </ModalBody>
                 <ModalFooter></ModalFooter>

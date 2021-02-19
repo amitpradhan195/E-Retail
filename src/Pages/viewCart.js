@@ -13,16 +13,16 @@ export default class Cart extends Component {
     this.state = {
       user: [],
       cart: [],
-      food: [],
+      product: [],
       notes:'',
-      viewfood: [],
+      viewProduct: [],
       modal: false,
-      foodname: '',
+      productName: '',
       totalprice: '',
       totAmt:0,
       updatedprice: 0,
       updatedquanity: '',
-      quanity:1,
+      quantity:1,
       show: true,
       max: 5,
       min: 0,
@@ -66,29 +66,29 @@ export default class Cart extends Component {
 
   handleChange = (e) => {
     this.setState({
-      viewfood:{...this.state.viewfood, [e.target.name]: (e.target.validity.valid) ? e.target.value:''}
+      viewProduct:{...this.state.viewProduct, [e.target.name]: (e.target.validity.valid) ? e.target.value:''}
     })
   }
 
-  handleEdit = (foodId) => {
+  handleEdit = (productId) => {
     this.setState({
       modal: !this.state.modal
     })
-    Axios.get(`http://localhost:3002/cart/${foodId}`, this.state.config)
+    Axios.get(`http://localhost:3002/cart/${productId}`, this.state.config)
       .then((response) => {
         const data = response.data;
         this.setState({
-          viewfood: data
+          viewProduct: data
         });
-        console.log(this.state.viewfood);
+        console.log(this.state.viewProduct);
       }).catch(error => console.log(error.response));
   }
 
   handleUpdate = (cartId) => {
     Axios.put(`http://localhost:3002/cart/${cartId}`,{
-      quanity: this.state.viewfood.quanity,
-      totalprice: (this.state.viewfood.food.price * this.state.viewfood.quanity),
-      notes: this.state.viewfood.notes,
+      quantity: this.state.viewProduct.quantity,
+      totalprice: (this.state.viewProduct.product.price * this.state.viewProduct.quantity),
+      notes: this.state.viewProduct.notes,
     }, this.state.config)
       .then((response) => {
         console.log(response);
@@ -104,10 +104,10 @@ export default class Cart extends Component {
     this.state.cart.forEach(item => {
       Axios.post(`http://localhost:3002/order/`,
       {
-        food: item.food._id,
+        product: item.product._id,
         notes: item.notes,
         dateTime: moment().utcOffset('+05:30').format('YYYY-MM-DD hh:mm a'),
-        quanity: item.quanity
+        quantity: item.quantity
       }, this.state.config)
       .then((response) => {
         Axios.delete(`http://localhost:3002/cart/${item._id}`, this.state.config)
@@ -172,10 +172,10 @@ export default class Cart extends Component {
               this.state.cart.map(cart => {
                 return (
                   <tr key={cart._id}>
-                  <td>{cart.food.foodname}</td>
+                  <td>{cart.product.productName}</td>
                   <td>{cart.notes}</td>
-                  <td>{cart.quanity}</td>
-                  <td>{cart.food.price * cart.quanity}</td>   
+                  <td>{cart.quantity}</td>
+                  <td>{cart.product.price * cart.quantity}</td>   
                   <td>
                     <button type="button" class="btn btn-primary"
                       onClick={() => this.handleEdit(cart._id)} >Edit</button>
@@ -201,16 +201,17 @@ export default class Cart extends Component {
         </Table>
 
         <Modal isOpen={this.state.modal}>
-          <ModalHeader toggle={this.toggle}>{this.state.viewfood.food?this.state.viewfood.food.foodname:""}<br/>
-              Rs.{this.state.viewfood.totalprice}
+          <ModalHeader toggle={this.toggle}>{this.state.viewProduct.product?this.state.viewProduct.product.productName:""}<br/>
+              Rs.{this.state.viewProduct.totalprice}
           </ModalHeader>
           <ModalBody>
             <FormGroup>
               <Label htmlFor="notes">Add notes</Label>
               <Input id="notes" 
                 type="textarea"
-                name="notes" 
-                value={this.state.viewfood.notes} 
+                name="notes"
+                placeholder="Type here for more description..." 
+                value={this.state.viewProduct.notes} 
                 onChange={this.handleChange}
               />
             </FormGroup>
@@ -219,8 +220,8 @@ export default class Cart extends Component {
               <Input 
                 type="number" 
                 pattern="[0-9]*" 
-                name="quanity" 
-                value={this.state.viewfood.quanity} 
+                name="quantity" 
+                value={this.state.viewProduct.quantity} 
                 onChange={this.handleChange} 
                 min="1" 
                 max="100" 
@@ -228,7 +229,7 @@ export default class Cart extends Component {
             </FormGroup>
           </ModalBody>
           <ModalFooter>
-              <button className="btn btn-lg btn-success" id="btnbag" onClick={() => this.handleUpdate(this.state.viewfood._id)}>Update</button>
+              <button className="btn btn-lg btn-success" id="btnbag" onClick={() => this.handleUpdate(this.state.viewProduct._id)}>Update</button>
           </ModalFooter>
         </Modal>
       </div>

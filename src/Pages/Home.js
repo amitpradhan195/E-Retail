@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import UserNavbar from '../components/Navbar/Navbar';
 import Category from './Category';
 import Popular from './Popular';
-import Restaurant from './Restaurant';
+import Brand from './Brand';
 import Footer from "../components/Footer/Footer";
 
 export default class Home extends Component {
@@ -13,7 +13,7 @@ export default class Home extends Component {
                 <Category />
                 <Popular />
                 <hr/>
-                <Restaurant/>
+                <Brand/>
                 <Footer />
             </div>
         )

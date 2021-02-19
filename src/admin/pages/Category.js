@@ -10,6 +10,7 @@ export default class ListFoods extends Component {
         this.state = {
           categories: [],
           category:[],
+          categoryImg:'',
           modal : false,
           modal1:false,
           imgPreview:null,
@@ -22,7 +23,7 @@ export default class ListFoods extends Component {
     } 
              
     componentDidMount() {
-      Axios.get('http://localhost:3002/foodCat', this.state.config)
+      Axios.get('http://localhost:3002/categories', this.state.config)
         .then((response)=>{
             const data = response.data;
             this.setState({categories:data});
@@ -47,9 +48,9 @@ export default class ListFoods extends Component {
     }
 
     deleteCat = (catId) => {
-      Axios.delete(`http://localhost:3002/foodCat/${catId}`, this.state.config)
+      Axios.delete(`http://localhost:3002/categories/${catId}`, this.state.config)
       .then((response) => {
-        window.location.reload(false)
+        window.location.reload();
       }).catch(err=>console.log(err.response));
     }
 
@@ -57,12 +58,12 @@ export default class ListFoods extends Component {
       this.setState({
         modal: !this.state.modal
       });
-      Axios.get(`http://localhost:3002/foodCat/${catId}`,this.state.config)
+      Axios.get(`http://localhost:3002/categories/${catId}`,this.state.config)
       .then((response)=>{
         const data = response.data;
           this.setState({
             category: data,
-            imgPreview:`http://localhost:3002/uploads/${data.catImg}`
+            imgPreview:`http://localhost:3002/uploads/${data.categoryImg}`
           });    
         console.log(this.state.imgPreview)
         })
@@ -86,15 +87,15 @@ export default class ListFoods extends Component {
       e.preventDefault();
         const data = new FormData()
         data.append('imageFile', this.state.selectedFile)
-        Axios.post('http://localhost:3002/upload', data, this.state.config)
+        Axios.post('http://localhost:3002/uploads', data, this.state.config)
             .then((response) => {
                 this.setState({
-                    catImg: response.data.filename
+                  categoryImg: response.data.filename
                 })
-            Axios.post('http://localhost:3002/foodCat',
+            Axios.post('http://localhost:3002/categories',
             {
               category:this.state.category,
-              catImg:this.state.catImg
+              categoryImg:this.state.categoryImg
             }, this.state.config)
                 .then((response)=>{
                     console.log(response)
@@ -107,15 +108,15 @@ export default class ListFoods extends Component {
     updateCat = (catId) => {
       const data = new FormData()
       data.append('imageFile', this.state.selectedFile)
-      Axios.post('http://localhost:3002/upload', data, this.state.config)
+      Axios.post('http://localhost:3002/uploads', data, this.state.config)
         .then((response) => {
           this.setState({
-            catImg: response.data.filename
+            categoryImg: response.data.filename
           })
-        Axios.put(`http://localhost:3002/foodCat/${catId}`, 
+        Axios.put(`http://localhost:3002/categories/${catId}`, 
         { 
           category: this.state.category.category,
-          catImg:this.state.catImg
+          categoryImg:this.state.categoryImg
         }, this.state.config)
         .then((response) => {
           alert("Category updated successfully")
@@ -135,7 +136,7 @@ export default class ListFoods extends Component {
             <br/>
             <div className="row">
               <div className="col-md-6">
-                <h1>Add Item Category</h1>
+                <h1>Add Product Category</h1>
               </div>
               <div className="col-md-6">
                   <Button color='primary' style={{float:"right"}} onClick={this.toggle1}>
@@ -159,7 +160,7 @@ export default class ListFoods extends Component {
                 <tr key={cat._id}>
                   <td>{cat.category}</td>
                   <td>
-                    <img alt="catIcon" src={`http://localhost:3002/uploads/${cat.catImg}`} style={{height: "50px",width:"50px"}}/>
+                    <img alt="catIcon" src={`http://localhost:3002/uploads/${cat.categoryImg}`} style={{height: "50px",width:"50px"}}/>
                   </td>
                   <td>
                     <a className="btn btn-success" onClick={() => this.handleEdit(cat._id)}>Edit</a>
@@ -172,14 +173,14 @@ export default class ListFoods extends Component {
               }
 
               <Modal isOpen={this.state.modal1}>
-                <ModalHeader toggle={this.toggle1}><legend>Add Food Category</legend></ModalHeader>
+                <ModalHeader toggle={this.toggle1}><legend>Add Product Category</legend></ModalHeader>
                 <ModalBody>
                   <FormGroup>
                     <Input type="text" placeholder="Enter category name" name="category" onChange={this.handleChange} />
                   </FormGroup>
                   <FormGroup style={{display: "ruby"}}>
-                    <Label className="btn btn-outline-info float-left" htmlFor="filePicker">Upload image for food category</Label>
-                    <Input id="filePicker" style={{visibility:"hidden"}} type='file' name='catImg' onChange={this.handleFileSelect}/>
+                    <Label className="btn btn-outline-info float-left" htmlFor="filePicker">Upload image for product category</Label>
+                    <Input id="filePicker" style={{visibility:"hidden"}} type='file' name='categoryImg' onChange={this.handleFileSelect}/>
                     <img alt="Image Preview"
                       style={{display:'block', border: '1px solid gray', width:"200px", height:"200px", textAlign:'center'}} 
                       width='200' src={this.state.imgPreview}
@@ -201,7 +202,7 @@ export default class ListFoods extends Component {
 
                       <img alt="Image Preview" width='200' src={this.state.imgPreview}/><br/>
                       <label style={{color:'DarkSlateGray', fontSize:18}}>Choose picture for category :</label>
-                      <Input type='file' name='foodimage' onChange={this.handleFileSelect}/>
+                      <Input type='file' name='productImage' onChange={this.handleFileSelect}/>
                       
                     </div>
                     <Button className="btn btn-success btn-block" 

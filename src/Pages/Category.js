@@ -10,13 +10,13 @@ export default class Category extends Component {
     
         this.state = {
             category:[],  
-            foods:[],
-            food:[],
+            products:[],
+            product:[],
             catName:'',
             notes:'',
             quantity:'1',
             totalprice:'',
-            searchedFoods:'',
+            searchedProducts:'',
             modal:false,
             config: {
                 headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
@@ -32,7 +32,7 @@ export default class Category extends Component {
     }  
 
     componentDidMount() {
-        Axios.get('http://localhost:3002/foodCat', this.state.config)
+        Axios.get('http://localhost:3002/categories', this.state.config)
           .then((response) => {
             console.log(response.data)
             this.setState({
@@ -43,12 +43,12 @@ export default class Category extends Component {
     }
 
     searchFood=(catId, catName)=>{
-       Axios.get(`http://localhost:3002/foods/searchByCat/${catId}`, this.state.config)
+       Axios.get(`http://localhost:3002/products/searchByCat/${catId}`, this.state.config)
         .then((response)=>{
             const data=response.data
             if(data[0]!=null){
                 this.setState({
-                    foods:response.data,
+                    products:response.data,
                     catName:'Results for : '+ catName
                 })
                 console.log(this.state.catName)
@@ -56,22 +56,22 @@ export default class Category extends Component {
             else{
                 this.setState({
                     catName :'No results found for : '+ catName,
-                    foods:[]
+                    products:[]
                 })   
             }
         })
     }
 
-    handleFood = (foodId) => {
+    handleProduct = (productId) => {
         this.setState({
           modal: !this.state.modal
     
         })
-        Axios.get(`http://localhost:3002/foods/${foodId}`, this.state.config)
+        Axios.get(`http://localhost:3002/products/${productId}`, this.state.config)
           .then((response) => {
             const data = response.data;
             this.setState({
-              food: data,
+              product: data,
               totalprice: data.price
             });
             console.log("data fecth");
@@ -83,13 +83,13 @@ export default class Category extends Component {
           alert("Please Enter a valid quantity")
         }
         else{
-          if(localStorage.getItem('token'!=null)){
+          if(localStorage.getItem('token')!=null){
             Axios.post(`http://localhost:3002/cart/`,
               {
-                food: this.state.food._id,
+                product: this.state.product._id,
                 totalprice: (this.state.totalprice * this.state.quantity),
                 notes: this.state.notes,
-                quanity: this.state.quantity
+                quantity: this.state.quantity
               }, this.state.config)
               .then((response) => {
                 console.log(response);
@@ -107,20 +107,20 @@ export default class Category extends Component {
     searchbyName=(e)=>{
         if(e.target.value!=null){
             console.log(e.target.value)
-            Axios.get(`http://localhost:3002/foods/searchByName/${e.target.value}`, this.state.config)
+            Axios.get(`http://localhost:3002/products/searchByName/${e.target.value}`, this.state.config)
             .then((response)=>{
-                const data = response.data.food;
-                console.log(response.data.food)
+                const data = response.data.product;
+                console.log(response.data.product)
                 if(data.length!==0){
                     this.setState({
-                        foods:data,
-                        searchedFoods:'Results for : '+ e.target.value
+                        products:data,
+                        searchedProducts:'Results for : '+ e.target.value
                     })
                 }
                 else{
                     this.setState({
-                        foods:null,
-                        searchedFoods:'No Results found for : '+e.target.value
+                        products:null,
+                        searchedProducts:'No Results found for : '+e.target.value
                     })
                 }
             }).catch((err)=>console.log(err.response))
@@ -140,13 +140,11 @@ export default class Category extends Component {
                 <div className="container">
                     <Row>
                         <Col md={12}>
-                            <span>What would you like to order ?{' '}
-                                <input style={{border: 'none',
-                                    borderBottom: '2px solid #1ABC9C'}} 
-                                    type="text" name="search" id="search" placeholder="search food..." 
-                                    onChange={this.searchbyName}/>
-                                <FiSearch style={{fontSize:"30px", opacity:0.6}}/>
-                            </span>
+                            <input style={{border: 'none',
+                                borderBottom: '2px solid #1ABC9C'}} 
+                                type="text" name="search" id="search" placeholder="search product..." 
+                                onChange={this.searchbyName}/>
+                            <FiSearch style={{fontSize:"30px", opacity:0.6}}/>
                         </Col>
                     </Row>
                     <br/>
@@ -158,7 +156,7 @@ export default class Category extends Component {
                                 <img alt="catPic" onClick={()=>this.searchFood(catIcon._id, catIcon.category)} 
                                     style={{marginLeft:30, width:'40px', height:'40px'}}
                                     className="categoryList"
-                                    src ={`http://localhost:3002/uploads/${catIcon.catImg}`} id="catImg"/> 
+                                    src ={`http://localhost:3002/uploads/${catIcon.categoryImg}`} id="catImg"/> 
                             </div>
                         </Col>
                         )}
@@ -167,38 +165,39 @@ export default class Category extends Component {
                 <hr/>
                 <div className="container">
                     <h3 style={{color:'FireBrick'}}>{this.state.catName?this.state.catName:''}</h3>
-                    <h3 style={{color:'FireBrick'}} className="text-left">{this.state.searchedFoods?this.state.searchedFoods:''}</h3>
+                    <h3 style={{color:'FireBrick'}} className="text-left">{this.state.searchedProducts?this.state.searchedProducts:''}</h3>
                     <Row>
-                        {this.state.foods!=null ?                     
-                        this.state.foods.map((food => 
+                        {this.state.products!=null ?                     
+                        this.state.products.map((pop => 
                             <div className="Col-md-4" id="product">
-                                <figure className="card card-product p-2">
-                                    <img alt="foodPic" width='250' height='150' src={`http://localhost:3002/uploads/${food.foodimage}`}/>
-                                    <figcaption class="info-wrap">
-                                        <legend className="title">{food.foodname}</legend>
-                                        <h6 className="title">Rs. {food.price}</h6>
-                                    </figcaption>
-                                    <button class="btn btn-primary" onClick={()=>this.handleFood(food._id)}>Add to cart</button>
-                                </figure>
+                              <figure className="card card-product" onClick={()=>this.handleProduct(pop._id)}>
+                                <div className="image_wrap">
+                                  <img alt="productPic" src={`http://localhost:3002/uploads/${pop.productImage}`}/>
+                                </div>
+                                <figcaption class="info-wrap">
+                                  <h4 class="title">{pop.productName}</h4>
+                                  <h6 className="title">Rs. {pop.price}</h6>
+                                </figcaption>
+                              </figure>
                             </div>
                             )):''}
                     </Row>
                 </div>
 
                 <Modal isOpen={this.state.modal}>
-                    <ModalHeader toggle={this.toggle}>Item : {this.state.food.foodname}<br/>
-                            Price : Rs.{this.state.food.price}
+                    <ModalHeader toggle={this.toggle}>Item : {this.state.product.productName}<br/>
+                            Price : Rs.{this.state.product.price}
                     </ModalHeader>
                     <ModalBody>
                         <p>Add notes</p>
-                        <textarea id="notes" className="col-md-10" value={this.state.notes} placeholder="Customize food as your taste" name="notes" onChange={this.handleChange}></textarea>
+                        <textarea id="notes" className="col-md-10" value={this.state.notes} placeholder="Type here for more description..." name="notes" onChange={this.handleChange}></textarea>
                         <hr/>
                         <p>Add quantity</p>
                         <input type="number" pattern="[0-9]*" name="quantity" min={1} value={this.state.quantity} onChange={this.handleChange} min="1" max="100" />
                     </ModalBody>
                     <ModalFooter>
                         <Container id="ftr">
-                        <button className="btn btn-lg btn-success" id="btnbag" onClick={() => this.addCart(this.state.food._id)}>Add to cart</button>
+                        <button className="btn btn-lg btn-success" id="btnbag" onClick={() => this.addCart(this.state.product._id)}>Add to cart</button>
                         </Container>
                     </ModalFooter>
                 </Modal>

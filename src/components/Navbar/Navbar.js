@@ -97,8 +97,8 @@ export default function NavBar(props){
 
   return (
     <div>
-      <Navbar className="navStyle" sticky expand="md">
-        <NavbarBrand className="brandText" href="/">FOODIE NEPAL</NavbarBrand>
+      <Navbar light expand="md">
+        <NavbarBrand className="brandText" href="/" style={{color:'#F39C12'}}>E-Retail</NavbarBrand>
         <NavbarToggler className="togglerMenu" onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>

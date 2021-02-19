@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button, FormGroup, Label, Row, Input, Modal, ModalHeader, ModalBody, ModalFooter, Form, Col } from 'reactstrap'
 import axios from 'axios'
-import ListFoods from './ListFoods'
+import ListFoods from './ListProducts'
 import AdminNavbar from '../Navbar/adminNavbar';
 import { MdAdd } from "react-icons/md";
 import NumberFormat from "react-number-format";
@@ -13,12 +13,12 @@ export default class AddFood extends Component {
 
         this.state = {
             _id: null,
-            foodname: null,
+            productName: null,
             price : null,
-            foodimage: null,
-            resturant:[],
-            categorys:[],
-            resSelect:'',
+            productImage: null,
+            brand:[],
+            categories:[],
+            brandSelect:'',
             catSelect:'',
             modal:false,
             imgPreview:null,
@@ -37,27 +37,27 @@ export default class AddFood extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:3002/resturants',this.state.config)
+        axios.get('http://localhost:3002/brands',this.state.config)
         .then((response)=>{
           const data = response.data;
           this.setState({
-              resturant: data,
-              resSelect:data[0]._id
+              brand: data,
+              brandSelect:data[0]._id
             });        
         }).catch(error => console.log(error.response));
 
-        axios.get('http://localhost:3002/foodCat', this.state.config)
+        axios.get('http://localhost:3002/categories', this.state.config)
         .then((response)=>{
             const data = response.data;
             this.setState({
-                categorys:data,
+                categories:data,
                 imgPreview:data.catImg,
                 catSelect:data[0]._id
             });
         }).catch(err=>console.log(err.response));
       }
     
-   handleFileSelect  = (e) =>{
+    handleFileSelect  = (e) =>{
         this.setState({
             selectedFile: e.target.files[0],
             imgPreview:URL.createObjectURL(e.target.files[0])
@@ -74,15 +74,15 @@ export default class AddFood extends Component {
         e.preventDefault();
         const data = new FormData()
         data.append('imageFile', this.state.selectedFile)
-        axios.post('http://localhost:3002/upload', data, this.state.config)
+        axios.post('http://localhost:3002/uploads', data, this.state.config)
             .then((response) => {
                 this.setState({
-                    catImg: response.data.filename
+                    categoyImg: response.data.filename
                 })
-            axios.post('http://localhost:3002/foodCat',
+            axios.post('http://localhost:3002/categories',
             {
               category:this.state.category,
-              catImg:this.state.catImg
+              categoyImg:this.state.categoyImg
             }, this.state.config)
                 .then((response)=>{
                     console.log(response)
@@ -92,25 +92,26 @@ export default class AddFood extends Component {
             }).catch((err) => console.log(err.response))
     }
   
-    addFood = (e) => {
+    addProduct = (e) => {
         e.preventDefault();
         const data = new FormData()
         data.append('imageFile', this.state.selectedFile)
-        axios.post('http://localhost:3002/upload', data, this.state.config)
+        axios.post('http://localhost:3002/uploads', data, this.state.config)
             .then((response) => {
                 this.setState({
-                    foodimage: response.data.filename
+                    productImage: response.data.filename
                 })
-                axios.post('http://localhost:3002/foods', 
+                axios.post('http://localhost:3002/products', 
                 {
-                    foodname:this.state.foodname,
+                    productName:this.state.productName,
                     price:this.state.price,
-                    foodimage:this.state.foodimage,
-                    restaurant:this.state.resSelect,
+                    productImage:this.state.productImage,
+                    brand:this.state.brandSelect,
                     category:this.state.catSelect
                 }, this.state.config)
                     .then((response) => {
                         console.log(response);
+                        alert("Product added successfully")
                         window.location.reload();
                     })
                     .catch((err) => console.log(err.response))
@@ -124,7 +125,7 @@ export default class AddFood extends Component {
             <div className="container">
                 <Row>
                     <Col md={6} className="text-left mt-4">
-                        <h2 style={{color:'Crimson'}}>Add Item</h2>
+                        <h2 style={{color:'Crimson'}}>Add Product Item</h2>
                     </Col>
                     <Col md={6} className="text-right mt-4">
                         <Button color='primary' onClick={this.toggle}>
@@ -138,18 +139,18 @@ export default class AddFood extends Component {
                     <Row>
                         <Col md={4}>
                             <FormGroup>
-                                <Label for='foodname'>
-                                    <legend style={{fontSize:18}}>Food Name</legend>
+                                <Label for='productName'>
+                                    <legend style={{fontSize:18}}>Product Name</legend>
                                 </Label>
-                                <Input type='text' id="foodname" name='foodname' onChange={this.handleChange}/>
+                                <Input type='text' id="productName" name='productName' onChange={this.handleChange}/>
                             </FormGroup>
                         </Col>
                         <Col md={4}>
                             <FormGroup>
-                                <Label for='foodprice'>
-                                    <legend style={{fontSize:18}}>Food price</legend>
+                                <Label for='price'>
+                                    <legend style={{fontSize:18}}>Product price</legend>
                                 </Label>
-                                <NumberFormat id='foodprice' name='price'
+                                <NumberFormat id='price' name='price'
                                     customInput={Input} 
                                     onChange={ this.handleChange}
                                     thousandSeparator 
@@ -161,13 +162,13 @@ export default class AddFood extends Component {
                     <Row>
                         <Col md={4}>
                             <FormGroup className="mt-1">
-                                <Label for='resOption'>
-                                    <legend style={{fontSize:18}}>Choose Restaurant: </legend>
+                                <Label for='brandOption'>
+                                    <legend style={{fontSize:18}}>Choose Brand: </legend>
                                 </Label>
-                                <select onChange={this.handleChange} value={this.state.resSelect} name='resSelect' id='resOption' style={{width:200, textAlign:'center'}}>
+                                <select onChange={this.handleChange} value={this.state.brandSelect} name='brandSelect' id='brandOption' style={{width:200, textAlign:'center'}}>
                                     {
-                                        this.state.resturant.map(option=>
-                                            <option key={option._id} value={option._id}>{option.resturant_name}</option>
+                                        this.state.brand.map(option=>
+                                            <option key={option._id} value={option._id}>{option.brand_name}</option>
                                         )
                                     }
                                 </select>
@@ -181,7 +182,7 @@ export default class AddFood extends Component {
                                 <span> </span>
                                 <select onChange={this.handleChange} value={this.state.catSelect} name='catSelect' id='catOption' style={{width:200, textAlign:'center'}}>
                                 {
-                                    this.state.categorys.map(option=>
+                                    this.state.categories.map(option=>
                                         <option key={option._id} value={option._id}>{option.category}</option>
                                     )
                                 }
@@ -194,27 +195,27 @@ export default class AddFood extends Component {
                     <Row>
                         <Col md={3}>
                             <FormGroup style={{display: "ruby"}}>
-                                <Label className="btn btn-outline-info float-left" htmlFor="filePicker">Upload image for food</Label>
-                                <Input id="filePicker" style={{visibility:"hidden"}} type='file' name='food_image' onChange={this.handleFileSelect}/>
+                                <Label className="btn btn-outline-info float-left" htmlFor="filePicker">Upload image for product</Label>
+                                <Input id="filePicker" style={{visibility:"hidden"}} type='file' name='productImage' onChange={this.handleFileSelect}/>
                             </FormGroup>
                         </Col>
                         <Col md={2}>
                             <img alt="Img Preview" style={{width:200}} src={this.state.imgPreview}/><hr/>
                          </Col>
                     </Row>
-                    <Button color='success' onClick={this.addFood} block>Add Food</Button>
+                    <Button color='success' onClick={this.addProduct} block>Add Product</Button>
                 <hr/>
                 </Form>
               <ListFoods />
 
               <Modal isOpen={this.state.modal}>
-                <ModalHeader toggle={this.toggle}><legend>Add Food Category</legend></ModalHeader>
+                <ModalHeader toggle={this.toggle}><legend>Add Product Category</legend></ModalHeader>
                 <ModalBody>
                   <FormGroup>
                     <Input type="text" placeholder="Enter category name" name="category" onChange={this.handleChange} />
                   </FormGroup>
                   <FormGroup style={{display: "ruby"}}>
-                    <Label className="btn btn-outline-info float-left" htmlFor="filePicker">Upload image for food category</Label>
+                    <Label className="btn btn-outline-info float-left" htmlFor="filePicker">Upload image for product category</Label>
                     <Input id="filePicker" style={{visibility:"hidden"}} type='file' name='catImg' onChange={this.handleFileSelect}/>
                     <img alt="Image Preview"
                       style={{display:'block', border: '1px solid gray', width:"200px", height:"200px", textAlign:'center'}} 

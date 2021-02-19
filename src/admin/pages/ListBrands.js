@@ -1,19 +1,18 @@
 import React, { Component } from 'react'
-import { Table, Button, Modal, ModalHeader, ModalBody, ModalFooter,Input } from 'reactstrap';
+import { Table, Modal, ModalHeader, ModalBody, ModalFooter,Input } from 'reactstrap';
 import Axios from 'axios'
 
 
-export default class ListFoods extends Component {
+export default class ListBrands extends Component {
     constructor(props) {
         super(props)
     
         this.state = {
                  _id: '',
-                 resturant_name: '',
-                 resturant_address: '',
-                 res_image:'',
+                 brand_name: '',
+                 brand_image:'',
                  popular: [],
-                 resturant: [],
+                 brand: [],
                  modal : false,
                  isupdated: false,
                  config: {
@@ -32,11 +31,11 @@ export default class ListFoods extends Component {
   }
              
   componentDidMount() {
-    Axios.get('http://localhost:3002/resturants',this.state.config)
+    Axios.get('http://localhost:3002/brands',this.state.config)
     .then((response)=>{
       const data = response.data;
       this.setState({popular:  data});
-      this.setState({resturant: data});        
+      this.setState({brand: data});        
       console.log("data fecth");       
     }).catch(error => console.log(error.response));
   }
@@ -54,50 +53,49 @@ export default class ListFoods extends Component {
     })
   }
 
-  deleteresturant(resId){
-    Axios.delete(`http://localhost:3002/resturants/${resId}`, this.state.config)
+  deleteBrand(brandId){
+    Axios.delete(`http://localhost:3002/brands/${brandId}`, this.state.config)
     .then((response) => {
-      console.log("delete trying")
+      console.log("Deleting Brand")
     })
   }
 
-  handleEdit = (resId) => {
+  handleEdit = (brandId) => {
     this.setState({
       modal: !this.state.modal
     });
-    Axios.get(`http://localhost:3002/resturants/${resId}`,this.state.config)
+    Axios.get(`http://localhost:3002/brands/${brandId}`,this.state.config)
     .then((response)=>{
       const data = response.data;
       this.setState({
-        resturant: data,
-        imgPreview:`http://localhost:3002/uploads/${data.res_image}`
+        brand: data,
+        imgPreview:`http://localhost:3002/uploads/${data.brand_image}`
       });         
     }).catch(error => console.log(error.response)); 
   }
 
   handleupdate = (e) =>{
     this.setState({
-      resturant: { ...this.state.resturant, [e.target.name]: e.target.value }
+      brand: { ...this.state.brand, [e.target.name]: e.target.value }
     })
   }
      
-  updateRestaurant = (resId) => {
+  updateBrand = (brandId) => {
     const data = new FormData()
     data.append('imageFile', this.state.selectedFile)
-    Axios.post('http://localhost:3002/upload', data, this.state.config)
+    Axios.post('http://localhost:3002/uploads', data, this.state.config)
     .then((response) => {
       this.setState({
-        res_image: response.data.filename
+        brand_image: response.data.filename
       })
       console.log(response)
-      Axios.put(`http://localhost:3002/resturants/${resId}`, 
+      Axios.put(`http://localhost:3002/brands/${brandId}`, 
       { 
-        resturant_name:this.state.resturant.resturant_name,
-        resturant_address: this.state.resturant.resturant_address,
-        res_image:this.state.res_image 
+        brand_name:this.state.brand.brand_name,
+        brand_image:this.state.brand_image 
       },this.state.config)
         .then((response) => {
-          // alert("Restaurant updated successfully")
+          // alert("Brand updated successfully")
             window.location.reload();
           console.log(response.data)
         })
@@ -110,9 +108,8 @@ export default class ListFoods extends Component {
             <Table hover>
             <thead>
               <tr>
-                <th>Resturant Name</th>
-                <th>Resturant Address</th>
-                <th>Resturant Image</th>
+                <th>Brand Name</th>
+                <th>Brand Image</th>
                 <th>Edit</th>
                 <th>Delete</th>
               </tr>
@@ -121,12 +118,11 @@ export default class ListFoods extends Component {
                 {
                   this.state.popular.map(pop => 
                   <tr key={pop._id}>
-                    <td>{pop.resturant_name}</td>
-                    <td>{pop.resturant_address}</td>
-                          <td><img alt="img" src={`http://localhost:3002/uploads/${pop.res_image}`} style={{height: "50px",width:"50px"}}/></td>
+                    <td>{pop.brand_name}</td>
+                    <td><img alt="img" src={`http://localhost:3002/uploads/${pop.brand_image}`} style={{height: "50px",width:"50px"}}/></td>
                     <td><a className="btn btn-success" onClick={() => this.handleEdit(pop._id)}>
                                         Edit</a></td>
-                    <td><a onClick={() => this.deleteresturant(pop._id)} className="btn btn-danger" href="">Delete</a></td>
+                    <td><a onClick={() => this.deleteBrand(pop._id)} className="btn btn-danger" href="">Delete</a></td>
                   </tr>
                   )
                 }
@@ -134,23 +130,17 @@ export default class ListFoods extends Component {
         <Modal isOpen={this.state.modal}>
           <ModalHeader toggle={this.toggle}><legend>Update</legend></ModalHeader>
           <ModalBody>
-                <legend><h3>Update Resturant</h3></legend>
+                <legend><h3>Update Brand</h3></legend>
                 <div className="form-group">
-                    <label> Resturant Name</label> 
-                      <input type="text" name="resturant_name" className="form-control"
-                        value ={this.state.resturant.resturant_name} onChange={this.handleupdate}/> 
-                  </div>
-                  <div className="form-group">
-                      <label>Resturant Address</label>
-                      <input type="text" name="resturant_address" className="form-control"
-                      value={this.state.resturant.resturant_address}  
-                      onChange={this.handleupdate}  />
+                    <label> Brand Name</label> 
+                      <input type="text" name="brand_name" className="form-control"
+                        value ={this.state.brand.brand_name} onChange={this.handleupdate}/> 
                   </div>
                   <img className='img-thumbnail' width='200'
-                  src={this.state.imgPreview} alt="resImg" />
-                  <Input type='file' name='res_image' id='res_image'
+                  src={this.state.imgPreview} alt="brandImg" />
+                  <Input type='file' name='brand_image' id='brand_image'
                     onChange={this.handleFileSelect}/>
-                  <button className="btn btn-primary btn-block" onClick={() => this.updateRestaurant(this.state.resturant._id)}>Update</button>   
+                  <button className="btn btn-primary btn-block" onClick={() => this.updateBrand(this.state.brand._id)}>Update</button>   
           </ModalBody>
           <ModalFooter>
           </ModalFooter>

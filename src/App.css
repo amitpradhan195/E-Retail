@@ -39,6 +39,7 @@
 
 .billHeader{
   visibility:hidden;
+  position: absolute;
 }
 
 @media print {
@@ -49,6 +50,7 @@
   .billHeader{
     visibility: visible;
     color:steelblue;
+    position:unset;
   }
 
   .printDiv, .printDiv * {

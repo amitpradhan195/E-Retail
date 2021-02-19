@@ -4,7 +4,7 @@ import Carousel from "../components/Carousel/Carousel";
 import Footer from "../components/Footer/Footer";
 import Category from './Category';
 import Popular from "./Popular";
-import Restaurant from "./Restaurant";
+import Brand from "./Brand";
 import { useHistory } from "react-router-dom";
 
 export default function LandingPage() {
@@ -31,7 +31,7 @@ export default function LandingPage() {
             <Carousel/>
             <Category />
             <Popular/>
-            <Restaurant/>
+            <Brand/>
             <Footer/>
         </div>
     )
