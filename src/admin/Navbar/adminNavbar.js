@@ -67,7 +67,7 @@ export default class AdminNavbar extends Component {
                             {this.state.fullname}
                             </DropdownToggle>
                             <DropdownMenu right>
-                                <DropdownItem href="#">
+                                <DropdownItem href="/viewProfile">
                                 My Profile
                                 </DropdownItem>
                                 <DropdownItem onClick={this.handleLogout}>

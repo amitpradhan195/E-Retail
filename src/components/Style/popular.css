@@ -1,5 +1,8 @@
 #product{
     margin: 5px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
 }
 
 .card-product:hover{
@@ -11,7 +14,7 @@
     border-radius: 3px 3px 0 0;
     overflow: hidden;
     position: relative;
-    height: 220px;
+    height: 250px;
     margin: 10px;
     text-align: center;
 }

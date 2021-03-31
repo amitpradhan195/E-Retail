@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Axios from 'axios';
 import UserNavbar from '../components/Navbar/Navbar';
+import AdminNavbar from '../admin/Navbar/adminNavbar';
 import {
     Button,
     Modal,
@@ -111,8 +112,11 @@ export default class ProfileUpdate extends Component {
             return <h3>Loading ...</h3>
         } else {
         return (
-            <div className="container">
-                <UserNavbar/>
+            <div className="container-fluid">
+                {this.state.user.role=="admin" ?
+                    <AdminNavbar/>:
+                    <UserNavbar/>
+                }
                 <br/>
                 <form className="col-md-6">
                     <legend><h3>Update Profile</h3></legend>

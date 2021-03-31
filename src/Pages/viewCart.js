@@ -5,6 +5,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import moment from 'moment';
 import { Table, Modal, ModalHeader, ModalBody, ModalFooter, Label, Input, FormGroup} from 'reactstrap';
 import UserNavbar from "../components/Navbar/Navbar";
+import Footer from "../components/Footer/Footer";
 
 export default class Cart extends Component {
   constructor(props) {
@@ -114,12 +115,11 @@ export default class Cart extends Component {
           .then((response)=>{
             console.log("Deleted Successfully")
             window.location.reload();
-          }).catch((err)=>console.log(err.response));
-          
+          }).catch((err)=>console.log(err.response));          
         console.log(response);
-        alert("Ordered successfully")
       }).catch((err) => console.log(err.response));
     });
+    alert("Ordered successfully")
   }
 
   submit = () => {
@@ -234,6 +234,7 @@ export default class Cart extends Component {
         </Modal>
       </div>
       </div>
+      <Footer className="align-bottom"/>
       </>
     )
   }

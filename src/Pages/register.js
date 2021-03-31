@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import { Button, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
-import foodiePic from '../assets/foodienepal.png';
+import eretailPic from '../assets/eretail.png';
+import UserNavbar from '../components/Navbar/Navbar';
+import Footer from "../components/Footer/Footer";
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
 
@@ -58,6 +60,8 @@ export default function Register(props){
     }
 
     return (
+    <>
+        <UserNavbar />
         <div className="container text-left">
             <br/>
             <h1 color='blue'>Register</h1>
@@ -88,10 +92,12 @@ export default function Register(props){
                     </Form>
                 </Col>
                 <Col md={6}>
-                    <img src={foodiePic} className="fluid" alt="foodiePic" width="400px"/>
+                    <img src={eretailPic} className="fluid mt-5 ml-5" alt="eretailPic" width="400px"/>
                 </Col>
             </Row>
         </div>
+        <Footer />
+    </>
     );
 }
 

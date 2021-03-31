@@ -15,21 +15,19 @@ const Footer = (props) => {
             <Row>
                 <Col lg={4}>
                     <div align="left" className="p-5">
-                        <p className="footerTitle">FOODIE NEPAL</p>
+                        <p className="footerTitle">E-Retail</p>
                         <span className="footerFont">
                         01-1234567<br/>
-                        <a align="left" href="/contact">contact@foodienepal.com</a><br/>
+                        <a align="left" href="/contact">contact@eretail.com</a><br/>
                         New Baneshwor, KTM<br/>
                         </span>   
                     </div>
                 </Col>
                 <Col lg={4}>
                     <div align="left" className="p-5">
-                        <p className="footerTitle">ABOUT FOODIE NEPAL</p>
+                        <p className="footerTitle">ABOUT E-retail</p>
                         <span className="footerFont">
-                        <p>FOODIE NEPAL is the project developed for academic course module (Agile Development).
-                            This is a team project in which team members are Amit Pradhan, Nabin Sapkota, Sachindra Thapa,
-                            Sujan Majkoti, Sandesh K.C and Ayush Ghimire. It is supervised by the module leader (Pratik Bhusal). </p>
+                        <p> E-retail is the project developed for academic course module (Dissertation).</p>
                         </span> 
                     </div>
                 </Col>
@@ -38,14 +36,15 @@ const Footer = (props) => {
                         <p className="footerTitle">QUICK LINKS</p>
                         <span className="footerFont" >
                             <a href="/">HOME</a><hr/>
-                            <a href="/foods">FOODS</a><hr/>
+                            <a href="/viewCart">My Cart</a><hr/>
+                            <a href="/viewOrder">My Orders</a><hr/>
                             <a href="/about">ABOUT US</a><hr/>
                             <a href="/contact">CONTACT</a>
                         </span>
                     </div>
                 </Col>
                 <Col align="left" className="footerFont pl-5">
-                <p> <a href="/">© FOODIE NEPAL</a> | Site by
+                <p> <a href="/">© E-retail</a> | Site by
                 <a href="#"> AMIT PRADHAN</a>	</p>
                 </Col>
                 <Col align="right">

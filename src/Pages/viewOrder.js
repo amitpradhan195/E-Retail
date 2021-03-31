@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Table, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import Axios from 'axios';
 import UserNavbar from "../components/Navbar/Navbar";
+import Footer from "../components/Footer/Footer";
 
 export default class ViewOrder extends Component {
     constructor(props) {
@@ -64,24 +65,25 @@ export default class ViewOrder extends Component {
       this.state.totAmt = this.state.viewOrder.reduce(
         (prevValue, currentValue) => prevValue + currentValue.product.price*currentValue.quantity,0);
         return (
+          <>
             <div>
             <UserNavbar/>
-              <Table hover>
+              <Table hover className="mb-5">
                 <thead>
-                  <tr class='h4'>
+                  <tr className='h4'>
                     <th>Ordered date & time</th>
                     <th>View Order</th>
                   </tr>
                 </thead>
                 <tbody>
                   {
-                  this.state.orders.map(order => {
-                    return(
+                  this.state.orders.map((order, index, arr) => {
+                    return (
                       <tr key={order._id}>
                           <td>
                           <h5>{order._id}</h5>
                           </td>
-                          <td><button type="button" class="btn btn-primary"
+                          <td><button type="button" className="btn btn-primary"
                           onClick={() => this.handleViewOrder(order._id)}>View Invoice</button></td>
                       </tr>
                     )})
@@ -96,7 +98,7 @@ export default class ViewOrder extends Component {
                 </ModalHeader>
                 <ModalBody className="printDiv" style={{backgroundColor:'#F8F9F9'}}>
                   <h3 className="billHeader">E-Retail</h3>
-                  <h5>Ordered Date : <span class="h6"> {this.state.orderDate} </span></h5>
+                  <h5>Ordered Date : <span className="h6"> {this.state.orderDate} </span></h5>
                   <Table>
                     <thead>
                     <tr>
@@ -135,6 +137,8 @@ export default class ViewOrder extends Component {
                 </ModalFooter>
               </Modal>
             </div>
+            <Footer className="align-bottom"/>
+          </>
         )
     }
 }

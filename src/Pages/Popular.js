@@ -108,16 +108,16 @@ export default class Popular extends Component {
             <Alert color="info" isOpen={this.state.visible} >
               I am an alert and I will disappear in 2sec.!
             </Alert>
-            <Row>
+            <Row className="align-center">
               {
                 this.state.popular.map((pop => 
                   <div className="Col-md-4" id="product">
                     <figure className="card card-product" onClick={()=>this.handleProduct(pop._id)}>
                       <div className="image_wrap">
-                        <img alt="productPic" src={`http://localhost:3002/uploads/${pop.productImage}`}/>
+                        <img alt="productPic" width="250" src={`http://localhost:3002/uploads/${pop.productImage}`}/>
                       </div>
-                      <figcaption class="info-wrap">
-                        <h4 class="title">{pop.productName}</h4>
+                      <figcaption className="info-wrap">
+                        <label>{pop.productName}</label>
                         <h6 className="title">Rs. {pop.price}</h6>
                       </figcaption>
                     </figure>

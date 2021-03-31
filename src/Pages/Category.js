@@ -154,7 +154,7 @@ export default class Category extends Component {
                         <Col>
                             <div key={catIcon._id}>
                                 <img alt="catPic" onClick={()=>this.searchFood(catIcon._id, catIcon.category)} 
-                                    style={{marginLeft:30, width:'40px', height:'40px'}}
+                                    style={{marginLeft:30, width:'70px', height:'60px'}}
                                     className="categoryList"
                                     src ={`http://localhost:3002/uploads/${catIcon.categoryImg}`} id="catImg"/> 
                             </div>
